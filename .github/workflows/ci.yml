@@ -64,5 +64,5 @@ jobs:
     - name: Test Install Interface
       run: |
         cmake --install ${{github.workspace}}/build --config ${{matrix.build_type}}
-        cmake -S ${{github.workspace}}/test/instal  -B ${{github.workspace}}/test/install/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/install
+        cmake -S ${{github.workspace}}/test/install  -B ${{github.workspace}}/test/install/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_PREFIX_PATH=${{github.workspace}}/install
         cmake  --build ${{github.workspace}}/test/install/build --config ${{matrix.build_type}}
