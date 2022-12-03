@@ -11,3 +11,5 @@ dp_configure_target(${PROJECT_NAME}_Tests
     DP_WARNINGS
     AUTO_SOURCE_GROUP
 )
+
+add_subdirectory(install)
