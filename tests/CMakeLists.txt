@@ -13,3 +13,9 @@ dp_configure_target(${PROJECT_NAME}_Tests
 )
 
 add_subdirectory(install)
+
+# Configure InstalTest here to keep its cmake compatible to independent use
+dp_configure_target(${PROJECT_NAME}_InstallTest
+    DP_WARNINGS
+    AUTO_SOURCE_GROUP
+)

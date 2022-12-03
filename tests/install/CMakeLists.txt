@@ -8,8 +8,3 @@ endif ()
 
 add_executable(${PROJECT_NAME} InstallTest.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE MiniPP::MiniPP)
-
-dp_configure_target(${PROJECT_NAME}
-    DP_WARNINGS
-    AUTO_SOURCE_GROUP
-)
