@@ -26,12 +26,22 @@ jobs:
         include:
           - os: windows-2022
             generator: "Visual Studio 17 2022"
-            compiler: msvc-14.30
+            compiler: msvc
             build_type: Debug
             
           - os: windows-2022
             generator: "Visual Studio 17 2022"
-            compiler: msvc-14.30
+            compiler: msvc
+            build_type: Release
+
+          - os: windows-2022
+            generator: "Visual Studio 14 2015"
+            compiler: msvc
+            build_type: Debug
+            
+          - os: windows-2022
+            generator: "Visual Studio 14 2015"
+            compiler: msvc
             build_type: Release
             
     steps:
