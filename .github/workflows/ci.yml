@@ -1,4 +1,4 @@
-name: CMake
+name: ci
 
 on:
   pull_request:
@@ -24,14 +24,14 @@ jobs:
           - Debug
           - Release
         include:
-          - os: "windows-2022"
+          - os: windows-2022
             generator: "Visual Studio 17 2022"
-            compiler: "msvc"
+            compiler: msvc-14.30
             build_type: Debug
             
-          - os: "windows-2022"
+          - os: windows-2022
             generator: "Visual Studio 17 2022"
-            compiler: "msvc"
+            compiler: msvc-14.30
             build_type: Release
             
     steps:
@@ -43,10 +43,10 @@ jobs:
           compiler: ${{ matrix.compiler }}
           vcvarsall: ${{ contains(matrix.os, 'windows') }}
           cmake: true
+          ninja: true
 
     - name: Configure
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+      run: cmake -B ${{github.workspace}}/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{matrix.build_type}}
-  
