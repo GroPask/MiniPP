@@ -1,0 +1,52 @@
+name: CMake
+
+on:
+  pull_request:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:        
+        os:
+          - windows-2022
+          - ubuntu-22.04
+          - macos-12
+        generator:
+          - "Ninja Multi-Config"
+        compiler:
+          - llvm-15.0.0
+          - gcc-12.1
+        build_type:
+          - Debug
+          - Release
+        include:
+          - os: "windows-2022"
+            generator: "Visual Studio 17 2022"
+            compiler: "msvc"
+            build_type: Debug
+            
+          - os: "windows-2022"
+            generator: "Visual Studio 17 2022"
+            compiler: "msvc"
+            build_type: Release
+            
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Cpp
+      uses: aminya/setup-cpp@v1
+      with:
+          compiler: ${{ matrix.compiler }}
+          vcvarsall: ${{ contains(matrix.os, 'windows') }}
+          cmake: true
+
+    - name: Configure
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{matrix.build_type}}
+  
