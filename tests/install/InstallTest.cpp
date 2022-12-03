@@ -1,4 +1,4 @@
-#include "MiniPP/MiniPP.hpp"
+#include <MiniPP/MiniPP.hpp>
 
 #include <cstdlib>
 
