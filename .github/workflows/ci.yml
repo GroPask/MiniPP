@@ -18,7 +18,7 @@ jobs:
         generator:
           - "Ninja Multi-Config"
         compiler:
-          - llvm-15.0.0
+          - llvm-15.0.2
           - gcc-11
         build_type:
           - Debug
