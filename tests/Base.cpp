@@ -1,4 +1,6 @@
+#ifndef MINI_PP_VERSION
 #include "MiniPP/MiniPP.hpp"
+#endif
 
 #define VALUE_4 4
 #define VALUE_2 2

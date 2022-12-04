@@ -1,4 +1,6 @@
+#ifndef MINI_PP_VERSION
 #include "MiniPP/MiniPP.hpp"
+#endif
 
 #define ZERO 0
 #define ONE() 1
