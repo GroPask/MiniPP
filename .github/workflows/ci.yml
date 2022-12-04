@@ -63,7 +63,7 @@ jobs:
 
     - name: Test FetchContent Interface
       run: |
-        cmake -S ${{github.workspace}}/tests/fetchcontent  -B ${{github.workspace}}/tests/fetchcontent/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DMINI_PP_LOCAL_SRC=${{ github.workspace }}
+        cmake -S ${{github.workspace}}/tests/fetchcontent  -B ${{github.workspace}}/tests/fetchcontent/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DMINI_PP_LOCAL_SRC="${{ github.workspace }}
         cmake  --build ${{github.workspace}}/tests/fetchcontent/build --config ${{matrix.build_type}}
 
     - name: Test Install Interface
