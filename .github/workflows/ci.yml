@@ -63,9 +63,6 @@ jobs:
 
     - name: Test FetchContent Interface
       run: |
-        echo $GITHUB_SHA
-        echo $env:GITHUB_SHA
-        echo ${{ env.GITHUB_SHA }}
         echo "$GITHUB_SHA"
         echo "$env:GITHUB_SHA"
         echo "${{ env.GITHUB_SHA }}"
