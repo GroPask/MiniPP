@@ -63,10 +63,11 @@ jobs:
 
     - name: Test FetchContent Interface
       run: |
-        echo "$GITHUB_SHA"
-        echo "$env:GITHUB_SHA"
-        echo "${{ env.GITHUB_SHA }}"
-        cmake -S ${{github.workspace}}/tests/fetchcontent  -B ${{github.workspace}}/tests/fetchcontent/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+        echo "$GITHUB_REF"
+        echo "$env:GITHUB_REF"
+        echo "${{ env.GITHUB_REF }}"
+        echo ${{ github.ref }}
+        cmake -S ${{github.workspace}}/tests/fetchcontent  -B ${{github.workspace}}/tests/fetchcontent/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DMINI_PP_WANTED_SHA=$GITHUB_REF
         cmake  --build ${{github.workspace}}/tests/fetchcontent/build --config ${{matrix.build_type}}
 
     - name: Test Install Interface
