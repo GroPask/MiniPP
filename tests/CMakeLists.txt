@@ -12,9 +12,17 @@ dp_configure_target(${PROJECT_NAME}_Tests
     AUTO_SOURCE_GROUP
 )
 
+add_subdirectory(fetchcontent)
+
+# Configure FetchContentTest here to keep its cmake compatible to independent use
+dp_configure_target(${PROJECT_NAME}_FetchContentTest
+    DP_WARNINGS
+    AUTO_SOURCE_GROUP
+)
+
 add_subdirectory(install)
 
-# Configure InstalTest here to keep its cmake compatible to independent use
+# Configure InstallTest here to keep its cmake compatible to independent use
 dp_configure_target(${PROJECT_NAME}_InstallTest
     DP_WARNINGS
     AUTO_SOURCE_GROUP

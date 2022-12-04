@@ -61,6 +61,10 @@ jobs:
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{matrix.build_type}}
 
+    - name: Test FetchContent Interface
+        cmake -S ${{github.workspace}}/tests/fetchcontent  -B ${{github.workspace}}/tests/fetchcontent/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DMINI_PP_WANTED_SHA=$env:GITHUB_SHA
+        cmake  --build ${{github.workspace}}/tests/fetchcontent/build --config ${{matrix.build_type}}
+
     - name: Test Install Interface
       run: |
         cmake --install ${{github.workspace}}/build --config ${{matrix.build_type}}
