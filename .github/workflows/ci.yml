@@ -66,7 +66,7 @@ jobs:
         echo "$GITHUB_SHA"
         echo "$env:GITHUB_SHA"
         echo "${{ env.GITHUB_SHA }}"
-        cmake -S ${{github.workspace}}/tests/fetchcontent  -B ${{github.workspace}}/tests/fetchcontent/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DMINI_PP_WANTED_SHA=$GITHUB_SHA
+        cmake -S ${{github.workspace}}/tests/fetchcontent  -B ${{github.workspace}}/tests/fetchcontent/build -G "${{matrix.generator}}" -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
         cmake  --build ${{github.workspace}}/tests/fetchcontent/build --config ${{matrix.build_type}}
 
     - name: Test Install Interface
