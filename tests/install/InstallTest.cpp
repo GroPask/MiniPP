@@ -1,11 +1,7 @@
 #include <MiniPP/MiniPP.hpp>
 
-#include <cstdlib>
+static_assert(MINI_PP_CAT(4, 2) == 42, "InstallTest is broken");
 
 int main()
 {
-    if (MINI_PP_CAT(4, 2) == 42)
-        return EXIT_SUCCESS;
-
-    return EXIT_FAILURE;
 }

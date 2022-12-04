@@ -1,9 +1,14 @@
-cmake_minimum_required(VERSION 3.21.0...3.25.0)
+cmake_minimum_required(VERSION 3.16.0...3.25.0)
 
 project(MiniPP VERSION 0.0.1 LANGUAGES CXX)
+include(GNUInstallDirs)
 
-option(MINI_PP_BUILD_TESTS "Build tests programs" ${PROJECT_IS_TOP_LEVEL})
-option(MINI_PP_INSTALL "Generate the install target" ${PROJECT_IS_TOP_LEVEL})
+if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    set(MINI_PP_TOP_LEVEL_PROJECT TRUE)
+endif ()
+
+option(MINI_PP_BUILD_TESTS "Build tests programs" ${MINI_PP_TOP_LEVEL_PROJECT})
+option(MINI_PP_INSTALL "Generate the install target" ${MINI_PP_TOP_LEVEL_PROJECT})
 
 include(FetchContent)
 FetchContent_Declare(dpCMake URL https://github.com/GroPask/dpCMake/archive/refs/heads/main.zip)
@@ -36,5 +41,8 @@ if (MINI_PP_BUILD_TESTS)
 endif ()
 
 if (MINI_PP_INSTALL)
-    dp_generate_install_for_target(MiniPP)
+    dp_target_generate_install(MiniPP
+        CONFIG_IN cmake/MiniPPConfig.cmake.in
+        INSTALL_INCLUDE_FOLDER
+    )
 endif ()
