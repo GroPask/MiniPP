@@ -5,6 +5,7 @@ target_sources(${PROJECT_NAME}_Tests PRIVATE
     ArgsUtility.cpp
     Base.cpp
     Boolean.cpp
+    CallWithArgs.cpp
     main.cpp
     UnrollUtility.cpp
 )

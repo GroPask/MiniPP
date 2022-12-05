@@ -28,8 +28,6 @@
 
 #define MINI_PP_EXPAND(x) x
 
-#define MINI_PP_CALL_WITH_ARGS(f, ...) MINI_PP_EXPAND(MINI_PP_DEFER(f)(__VA_ARGS__))
-
 ////////////////////////////////////////////////////////////
 // Boolean
 ////////////////////////////////////////////////////////////
@@ -80,6 +78,11 @@
 #define MINI_PP_PRIVATE_IS_PAREN_CHECK_CALLABLE(...) dummyA, dummyB
 #define MINI_PP_PRIVATE_IS_PAREN_SWITCH_1 0
 #define MINI_PP_PRIVATE_IS_PAREN_SWITCH_2 1
+
+////////////////////////////////////////////////////////////
+// Call With Args
+////////////////////////////////////////////////////////////
+#define MINI_PP_CALL_WITH_ARGS(f, ...) MINI_PP_EXPAND(MINI_PP_DEFER(f)(__VA_ARGS__))
 
 ////////////////////////////////////////////////////////////
 // Unroll Utility
