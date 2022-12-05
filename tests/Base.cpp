@@ -1,5 +1,7 @@
+#ifndef MINI_PP_VERSION // Allows this file to be included from anywhere
 #include "MiniPP/MiniPP.hpp"
 #include "TestUtility.hpp"
+#endif
 
 #define VALUE_4 4
 #define VALUE_2 2

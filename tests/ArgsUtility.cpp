@@ -1,4 +1,6 @@
+#ifndef MINI_PP_VERSION // Allows this file to be included from anywhere
 #include "MiniPP/MiniPP.hpp"
+#endif
 
 #define ARGS_WITHOUT_COMMA a
 #define ARGS_WITH_COMMA a, b

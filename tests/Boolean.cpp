@@ -1,4 +1,6 @@
+#ifndef MINI_PP_VERSION // Allows this file to be included from anywhere
 #include "MiniPP/MiniPP.hpp"
+#endif
 
 #define ZERO 0
 #define ONE() 1
