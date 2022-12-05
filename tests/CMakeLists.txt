@@ -10,6 +10,7 @@ target_sources(${PROJECT_NAME}_Tests PRIVATE
     IsEqual.cpp
     main.cpp
     TestUtility.hpp
+    Tuple.cpp
     UnrollUtility.cpp
 )
 
