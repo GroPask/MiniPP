@@ -166,7 +166,7 @@
 // Call With Args
 ////////////////////////////////////////////////////////////
 
-#define MINI_PP_CALL_WITH_ARGS(f, ...) MINI_PP_EXPAND(MINI_PP_DEFER(f)(__VA_ARGS__))
+#define MINI_PP_CALL_WITH_ARGS(...) MINI_PP_CALL_WITH_TUPLE(MINI_PP_TUPLE_GET_ELEM_0((__VA_ARGS__)), MINI_PP_TUPLE_POP_FRONT(MINI_PP_MAKE_TUPLE(__VA_ARGS__)))
 
 ////////////////////////////////////////////////////////////
 // Unroll Utility
