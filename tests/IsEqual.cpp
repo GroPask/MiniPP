@@ -7,6 +7,7 @@
 #define TWO 2
 #define THREE() 3
 #define FOUR 4
+#define FIVE() 5
 
 ///////////////// MINI_PP_IS_EQUAL_0 /////////////////
 static_assert(MINI_PP_IS_EQUAL_0(0) == 1, "MINI_PP_IS_EQUAL_0 is broken");
@@ -31,3 +32,9 @@ static_assert(MINI_PP_IS_EQUAL_3(3) == 1, "MINI_PP_IS_EQUAL_3 is broken");
 static_assert(MINI_PP_IS_EQUAL_3(4) == 0, "MINI_PP_IS_EQUAL_3 is broken");
 static_assert(MINI_PP_IS_EQUAL_3(THREE()) == 1, "MINI_PP_IS_EQUAL_3 is broken");
 static_assert(MINI_PP_IS_EQUAL_3(FOUR) == 0, "MINI_PP_IS_EQUAL_3 is broken");
+
+///////////////// MINI_PP_IS_EQUAL_4 /////////////////
+static_assert(MINI_PP_IS_EQUAL_4(4) == 1, "MINI_PP_IS_EQUAL_4 is broken");
+static_assert(MINI_PP_IS_EQUAL_4(5) == 0, "MINI_PP_IS_EQUAL_4 is broken");
+static_assert(MINI_PP_IS_EQUAL_4(FOUR) == 1, "MINI_PP_IS_EQUAL_4 is broken");
+static_assert(MINI_PP_IS_EQUAL_4(FIVE()) == 0, "MINI_PP_IS_EQUAL_4 is broken");
