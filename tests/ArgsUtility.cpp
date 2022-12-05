@@ -1,6 +1,4 @@
-#ifndef MINI_PP_VERSION
 #include "MiniPP/MiniPP.hpp"
-#endif
 
 #define ARGS_WITHOUT_COMMA a
 #define ARGS_WITH_COMMA a, b

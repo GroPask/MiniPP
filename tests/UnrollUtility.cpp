@@ -1,6 +1,4 @@
-#ifndef MINI_PP_VERSION
 #include "MiniPP/MiniPP.hpp"
-#endif
 
 ///////////////// MINI_PP_MAX_NB_ARGS /////////////////
 static_assert(MINI_PP_MAX_NB_ARGS > 0, "MINI_PP_MAX_NB_ARGS is broken");
