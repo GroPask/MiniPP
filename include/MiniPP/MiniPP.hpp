@@ -80,8 +80,25 @@
 #define MINI_PP_PRIVATE_IS_PAREN_SWITCH_2 1
 
 ////////////////////////////////////////////////////////////
+// Is Equal
+////////////////////////////////////////////////////////////
+
+#define MINI_PP_IS_EQUAL_0(x) MINI_PP_HAS_DIRECT_COMMA(MINI_PP_CAT(MINI_PP_PRIVATE_IS_EQUAL_0_CHECK_CALLABLE_, x))
+#define MINI_PP_PRIVATE_IS_EQUAL_0_CHECK_CALLABLE_0 dummyA, dummyB
+
+#define MINI_PP_IS_EQUAL_1(x) MINI_PP_HAS_DIRECT_COMMA(MINI_PP_CAT(MINI_PP_PRIVATE_IS_EQUAL_1_CHECK_CALLABLE_, x))
+#define MINI_PP_PRIVATE_IS_EQUAL_1_CHECK_CALLABLE_1 dummyA, dummyB
+
+#define MINI_PP_IS_EQUAL_2(x) MINI_PP_HAS_DIRECT_COMMA(MINI_PP_CAT(MINI_PP_PRIVATE_IS_EQUAL_2_CHECK_CALLABLE_, x))
+#define MINI_PP_PRIVATE_IS_EQUAL_2_CHECK_CALLABLE_2 dummyA, dummyB
+
+#define MINI_PP_IS_EQUAL_3(x) MINI_PP_HAS_DIRECT_COMMA(MINI_PP_CAT(MINI_PP_PRIVATE_IS_EQUAL_3_CHECK_CALLABLE_, x))
+#define MINI_PP_PRIVATE_IS_EQUAL_3_CHECK_CALLABLE_3 dummyA, dummyB
+
+////////////////////////////////////////////////////////////
 // Call With Args
 ////////////////////////////////////////////////////////////
+
 #define MINI_PP_CALL_WITH_ARGS(f, ...) MINI_PP_EXPAND(MINI_PP_DEFER(f)(__VA_ARGS__))
 
 ////////////////////////////////////////////////////////////
