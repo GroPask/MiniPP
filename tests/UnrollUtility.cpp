@@ -6,50 +6,75 @@
 static_assert(MINI_PP_MAX_NB_ARGS > 0, "MINI_PP_MAX_NB_ARGS is broken");
 
 ///////////////// MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE /////////////////
-namespace
+namespace ArgSeqMaxMinusOneTrueThenFalse
 {
-    constexpr bool checkArgSeqMaxMinusOneTrueThenFalse()
+    template <class... T>
+    struct Check;
+
+    template <class F, class... T>
+    struct Check<F, T...>
     {
-        const int maxMinusOneTrueThenFalseArray[] = { MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE };
-
-        const int size = (sizeof(maxMinusOneTrueThenFalseArray) / sizeof(*maxMinusOneTrueThenFalseArray));
-        static_assert(size == MINI_PP_MAX_NB_ARGS, "MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE is broken");
-
-        for (int i = 0; i < size - 1; ++i)
+        static constexpr bool doCheck(F first, T... tail)
         {
-            if (maxMinusOneTrueThenFalseArray[i] != 1)
-                return false;
+            return (first == 1 && Check<T...>::doCheck(tail...));
         }
+    };
 
-        return (maxMinusOneTrueThenFalseArray[size - 1] == 0);
+    template <class F>
+    struct Check<F>
+    {
+        static constexpr bool doCheck(F first)
+        {
+            return (first == 0);
+        }
+    };
+
+    template <class... T>
+    constexpr bool doCheck(T... args)
+    {
+        static_assert(sizeof...(args) == MINI_PP_MAX_NB_ARGS, "MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE is broken");
+
+        return Check<T...>::doCheck(args...);
     }
-    
 }
 
-static_assert(checkArgSeqMaxMinusOneTrueThenFalse(), "MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE is broken");
+static_assert(ArgSeqMaxMinusOneTrueThenFalse::doCheck(MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE), "MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE is broken");
 
 ///////////////// MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0 /////////////////
-namespace
+namespace ArgSeqMaxTo0
 {
-    constexpr bool checkArgSeqMaxTo0()
+    template <class... T>
+    struct Check;
+
+    template <class F, class... T>
+    struct Check<F, T...>
     {
-        const int maxMinusOneTrueThenFalseArray[] = { MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0 };
-
-        const int size = (sizeof(maxMinusOneTrueThenFalseArray) / sizeof(*maxMinusOneTrueThenFalseArray));
-        static_assert(size == (MINI_PP_MAX_NB_ARGS + 1), "MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0 is broken");
-
-        for (int i = 0; i < size; ++i)
+        static constexpr bool doCheck(F first, T... tail)
         {
-            if (maxMinusOneTrueThenFalseArray[i] != (MINI_PP_MAX_NB_ARGS - i))
-                return false;
+            return ((first == sizeof...(tail)) && Check<T...>::doCheck(tail...));;
         }
+    };
 
-        return true;
+    template <class F>
+    struct Check<F>
+    {
+        static constexpr bool doCheck(F first)
+        {
+            return (first == 0);
+        }
+    };
+
+    template <class... T>
+    constexpr bool doCheck(T... args)
+    {
+        static_assert(sizeof...(args) == (MINI_PP_MAX_NB_ARGS + 1), "MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0 is broken");
+
+        return Check<T...>::doCheck(args...);
     }
-
-    static_assert(checkArgSeqMaxTo0(), "MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0 is broken");
 }
 
+static_assert(ArgSeqMaxTo0::doCheck(MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0), "MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0 is broken");
+
 ///////////////// MINI_PP_PRIVATE_GET_ARG_INDEX_MAX /////////////////
-static_assert(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_PRIVATE_GET_ARG_INDEX_MAX)(MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE, 42)) == 42, "MINI_PP_PRIVATE_GET_ARG_INDEX_MAX is broken");
-static_assert(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_PRIVATE_GET_ARG_INDEX_MAX)(MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0)) == 0, "MINI_PP_PRIVATE_GET_ARG_INDEX_MAX is broken");
+static_assert(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_PRIVATE_GET_ARG_INDEX_MAX)(MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE, 42, dummy)) == 42, "MINI_PP_PRIVATE_GET_ARG_INDEX_MAX is broken");
+static_assert(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_PRIVATE_GET_ARG_INDEX_MAX)(MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0, dummy)) == 0, "MINI_PP_PRIVATE_GET_ARG_INDEX_MAX is broken");
