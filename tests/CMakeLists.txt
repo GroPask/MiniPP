@@ -5,6 +5,7 @@ target_sources(${PROJECT_NAME}_Tests PRIVATE
     Base.cpp
     Boolean.cpp
     main.cpp
+    UnrollUtility.cpp
 )
 
 dp_configure_target(${PROJECT_NAME}_Tests

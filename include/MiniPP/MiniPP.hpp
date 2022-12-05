@@ -58,4 +58,14 @@
 #define MINI_PP_PRIVATE_IF_ELSE_SWITCH_0(a, b) b
 #define MINI_PP_PRIVATE_IF_ELSE_SWITCH_1(a, b) a
 
+////////////////////////////////////////////////////////////
+// Unroll Utility
+////////////////////////////////////////////////////////////
+
+#define MINI_PP_MAX_NB_ARGS 16
+
+#define MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0
+#define MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
+#define MINI_PP_PRIVATE_GET_ARG_INDEX_MAX(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, ...) _16
+
 #endif
