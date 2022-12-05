@@ -1,4 +1,5 @@
 add_executable(${PROJECT_NAME}_Tests)
+target_include_directories(${PROJECT_NAME}_Tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(${PROJECT_NAME}_Tests PRIVATE ${PROJECT_NAME}::${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME}_Tests PRIVATE
@@ -7,6 +8,7 @@ target_sources(${PROJECT_NAME}_Tests PRIVATE
     Boolean.cpp
     CallWithArgs.cpp
     main.cpp
+    TestUtility.hpp
     UnrollUtility.cpp
 )
 
