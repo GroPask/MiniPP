@@ -7,6 +7,7 @@ target_sources(${PROJECT_NAME}_Tests PRIVATE
     Base.cpp
     Boolean.cpp
     CallWithArgs.cpp
+    ForEach.cpp
     IsEqual.cpp
     main.cpp
     TestUtility.hpp
