@@ -10,6 +10,7 @@ target_sources(${PROJECT_NAME}_Tests PRIVATE
     ForEach.cpp
     IsEqual.cpp
     main.cpp
+    SwitchWithOrWithoutVaArgs.cpp
     TestUtility.hpp
     Tuple.cpp
     UnrollUtility.cpp
