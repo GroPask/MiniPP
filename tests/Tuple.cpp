@@ -16,13 +16,13 @@ static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_MAKE_TUPLE(A)), "(a)"), "MINI
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_MAKE_TUPLE(A_B)), "(a, b)"), "MINI_PP_MAKE_TUPLE is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_MAKE_TUPLE(A_CALL())), "(a)"), "MINI_PP_MAKE_TUPLE is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_MAKE_TUPLE(A_B_CALL())), "(a, b)"), "MINI_PP_MAKE_TUPLE is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_MAKE_TUPLE())), "4()"), "MINI_PP_MAKE_TUPLE is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_MAKE_TUPLE(a))), "4(a)"), "MINI_PP_MAKE_TUPLE is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_MAKE_TUPLE(a, b))), "4(a, b)"), "MINI_PP_MAKE_TUPLE is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_MAKE_TUPLE(A))), "4(a)"), "MINI_PP_MAKE_TUPLE is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_MAKE_TUPLE(A_B))), "4(a, b)"), "MINI_PP_MAKE_TUPLE is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_MAKE_TUPLE(A_CALL()))), "4(a)"), "MINI_PP_MAKE_TUPLE is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_MAKE_TUPLE(A_B_CALL()))), "4(a, b)"), "MINI_PP_MAKE_TUPLE is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE())), "4dummy ()"), "MINI_PP_MAKE_TUPLE is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE(a))), "4dummy (a)"), "MINI_PP_MAKE_TUPLE is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE(a, b))), "4dummy (a, b)"), "MINI_PP_MAKE_TUPLE is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE(A))), "4dummy (a)"), "MINI_PP_MAKE_TUPLE is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE(A_B))), "4dummy (a, b)"), "MINI_PP_MAKE_TUPLE is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE(A_CALL()))), "4dummy (a)"), "MINI_PP_MAKE_TUPLE is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE(A_B_CALL()))), "4dummy (a, b)"), "MINI_PP_MAKE_TUPLE is broken");
 
 ///////////////// MINI_PP_CALL_WITH_TUPLE /////////////////
 static_assert(MINI_PP_CALL_WITH_TUPLE(MINI_PP_NB_ARGS, ()) == 0, "MINI_PP_CALL_WITH_TUPLE is broken");
