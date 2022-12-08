@@ -49,7 +49,7 @@ static_assert(TEST_1_FIXED(argA, argB) == 3, "MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_
 static_assert(TEST_1_FIXED(argA, argB, argC) == 3, "MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS is broken");
 static_assert(MINI_PP_CAT(4, TEST_1_FIXED(argA)) == 42, "MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS is broken");
 static_assert(MINI_PP_CAT(4, TEST_1_FIXED(argA, argB)) == 43, "MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS is broken");
-static_assert(MINI_PP_CAT(4, TEST_1_FIXED(argA, argB, argC)) == 43, "MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS is broken");;
+static_assert(MINI_PP_CAT(4, TEST_1_FIXED(argA, argB, argC)) == 43, "MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS is broken");
 static_assert(MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS(TEST_1_FIXED, 1, argA) == 2, "MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS is broken");
 static_assert(MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS(TEST_1_FIXED, 1, argA, argB) == 3, "MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS is broken");
 static_assert(MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS(TEST_1_FIXED, 1, argA, argB, argC) == 3, "MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS is broken");
