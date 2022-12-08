@@ -7,6 +7,8 @@
 #define A_B a, b
 #define A_CALL() a
 #define A_B_CALL() a, b
+#define A_B_TUPLE (a, b)
+#define A_B_TUPLE_CALL (a, b)
 
 ///////////////// MINI_PP_MAKE_TUPLE /////////////////
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_MAKE_TUPLE()), "()"), "MINI_PP_MAKE_TUPLE is broken");
@@ -23,6 +25,26 @@ static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUP
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE(A_B))), "4dummy (a, b)"), "MINI_PP_MAKE_TUPLE is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE(A_CALL()))), "4dummy (a)"), "MINI_PP_MAKE_TUPLE is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_MAKE_TUPLE(A_B_CALL()))), "4dummy (a, b)"), "MINI_PP_MAKE_TUPLE is broken");
+
+///////////////// MINI_PP_IS_TUPLE /////////////////
+static_assert(MINI_PP_IS_TUPLE(a) == 0, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_IS_TUPLE(MINI_PP_MAKE_TUPLE()) == 1, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_IS_TUPLE(MINI_PP_MAKE_TUPLE(a)) == 1, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_IS_TUPLE(MINI_PP_MAKE_TUPLE(a, b)) == 1, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_IS_TUPLE(()) == 1, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_IS_TUPLE((a)) == 1, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_IS_TUPLE((a, b)) == 1, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_IS_TUPLE(A_B_TUPLE) == 1, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_IS_TUPLE(A_B_TUPLE_CALL()) == 1, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_TUPLE(a)) == 40, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_TUPLE(MINI_PP_MAKE_TUPLE())) == 41, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_TUPLE(MINI_PP_MAKE_TUPLE(a))) == 41, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_TUPLE(MINI_PP_MAKE_TUPLE(a, b))) == 41, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_TUPLE(())) == 41, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_TUPLE((a))) == 41, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_TUPLE((a, b))) == 41, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_TUPLE(A_B_TUPLE)) == 41, "MINI_PP_IS_TUPLE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_TUPLE(A_B_TUPLE_CALL())) == 41, "MINI_PP_IS_TUPLE is broken");
 
 ///////////////// MINI_PP_CALL_WITH_TUPLE /////////////////
 static_assert(MINI_PP_CALL_WITH_TUPLE(MINI_PP_NB_ARGS, ()) == 0, "MINI_PP_CALL_WITH_TUPLE is broken");

@@ -10,6 +10,10 @@
 #define ARG_SEQ_4_2 4, 2
 #define GET_FIRST(a, b) a
 #define GET_SECOND(a, b) b
+#define ONE 1
+#define ONE_CALL() 1
+#define EMPTY
+#define EMPTY_CALL()
 
 #define NEED_2_EXPAND_CALL() VALUE_42 MINI_PP_PARENS
 
@@ -26,6 +30,8 @@ static_assert(MINI_PP_CAT(VALUE_4, 2) == 42, "MINI_PP_CAT is broken");
 static_assert(MINI_PP_CAT(VALUE_4, VALUE_2) == 42, "MINI_PP_CAT is broken");
 static_assert(MINI_PP_CAT(BEGIN, E_4) == 4, "MINI_PP_CAT is broken");
 static_assert(MINI_PP_CAT(4, VALUE_42()) == 442, "MINI_PP_CAT is broken");
+static_assert(MINI_PP_CAT(4, EMPTY) == 4, "MINI_PP_CAT is broken");
+static_assert(MINI_PP_CAT(4, EMPTY_CALL()) == 4, "MINI_PP_CAT is broken");
 
 ///////////////// MINI_PP_TO_TEXT /////////////////
 static_assert(stringsEqual(MINI_PP_TO_TEXT(42), "42"), "MINI_PP_TO_TEXT is broken");
@@ -44,6 +50,11 @@ static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND(2)) == 42, "MINI_PP_EXPAND is broken
 static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND(VALUE_42())) == 442, "MINI_PP_EXPAND is broken");
 static_assert(MINI_PP_CAT(4, EXPAND_2_TIMES(VALUE_42 MINI_PP_PARENS)) == 442, "MINI_PP_EXPAND is broken");
 static_assert(MINI_PP_CAT(4, EXPAND_3_TIMES(NEED_2_EXPAND_CALL MINI_PP_PARENS)) == 442, "MINI_PP_EXPAND is broken");
+
+///////////////// MINI_PP_ASSERT /////////////////
+MINI_PP_ASSERT(1)
+MINI_PP_ASSERT(ONE)
+MINI_PP_ASSERT(ONE_CALL())
 
 ///////////////// MINI_PP_TO_TEXT + MINI_PP_CAT /////////////////
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, 2)), "42"), "MINI_PP_TO_TEXT + MINI_PP_CAT is broken");
