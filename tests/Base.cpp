@@ -11,11 +11,14 @@
 #define GET_FIRST(a, b) a
 #define GET_SECOND(a, b) b
 
+#define NEED_2_EXPAND_CALL() VALUE_42 MINI_PP_PARENS
+
 ///////////////// MINI_PP_CAT /////////////////
 static_assert(MINI_PP_CAT(4, 2) == 42, "MINI_PP_CAT is broken");
 static_assert(MINI_PP_CAT(VALUE_4, 2) == 42, "MINI_PP_CAT is broken");
 static_assert(MINI_PP_CAT(VALUE_4, VALUE_2) == 42, "MINI_PP_CAT is broken");
 static_assert(MINI_PP_CAT(BEGIN, E_4) == 4, "MINI_PP_CAT is broken");
+static_assert(MINI_PP_CAT(4, VALUE_42()) == 442, "MINI_PP_CAT is broken");
 
 ///////////////// MINI_PP_TO_TEXT /////////////////
 static_assert(stringsEqual(MINI_PP_TO_TEXT(42), "42"), "MINI_PP_TO_TEXT is broken");
@@ -30,6 +33,10 @@ static_assert(MINI_PP_EXPAND(42) == 42, "MINI_PP_EXPAND is broken");
 static_assert(MINI_PP_EXPAND(VALUE_4) == 4, "MINI_PP_EXPAND is broken");
 static_assert(MINI_PP_EXPAND(VALUE_42()) == 42, "MINI_PP_EXPAND is broken");
 static_assert(MINI_PP_EXPAND(VALUE_42 MINI_PP_PARENS) == 42, "MINI_PP_EXPAND is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND(2)) == 42, "MINI_PP_EXPAND is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND(VALUE_42())) == 442, "MINI_PP_EXPAND is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND_2_TIMES(VALUE_42 MINI_PP_PARENS)) == 442, "MINI_PP_EXPAND is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND_3_TIMES(NEED_2_EXPAND_CALL MINI_PP_PARENS)) == 442, "MINI_PP_EXPAND is broken");
 
 ///////////////// MINI_PP_TO_TEXT + MINI_PP_CAT /////////////////
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, 2)), "42"), "MINI_PP_TO_TEXT + MINI_PP_CAT is broken");
@@ -39,3 +46,28 @@ static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(BEGIN, E_4)), "4"), "MINI
 
 ///////////////// MINI_PP_EXPAND + MINI_PP_DEFER + MINI_PP_TO_TEXT + MINI_PP_PARENS /////////////////
 static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(VALUE_42 MINI_PP_PARENS)), "42"), "MINI_PP_EXPAND + MINI_PP_DEFER + MINI_PP_TO_TEXT + MINI_PP_PARENS is broken");
+
+#if 0
+#define MY_TEST_0(...) SWITCH_WITH_OR_WITHOUT_VA_ARGS(MY_TEST_0, 0, __VA_ARGS__)
+#define MY_TEST_0_WITHOUT_VA_ARGS() 42
+#define MY_TEST_0_WITH_VA_ARGS(...) 42
+
+static_assert(MY_TEST_0() == 42, "");
+static_assert(MY_TEST_0(arga) == 42, "");
+
+
+#define MY_TEST_1(/*a,*/ ...) SWITCH_WITH_OR_WITHOUT_VA_ARGS(MY_TEST_1, 1, __VA_ARGS__)
+#define MY_TEST_1_WITHOUT_VA_ARGS(a) 42
+#define MY_TEST_1_WITH_VA_ARGS(a, ...) 42
+
+static_assert(MY_TEST_1(baaar) == 42, "");
+static_assert(MY_TEST_1(baaar, arga) == 42, "");
+
+
+#define MY_TEST_2(a, /*b,*/ ...) SWITCH_WITH_OR_WITHOUT_VA_ARGS(MY_TEST_2, 2, a, __VA_ARGS__)
+#define MY_TEST_2_WITHOUT_VA_ARGS(a, b) 42
+#define MY_TEST_2_WITH_VA_ARGS(a, b, ...) 42
+
+static_assert(MY_TEST_2(baaar, buuuu) == 42, "");
+static_assert(MY_TEST_2(baaar, buuuu, arga) == 42, "");
+#endif
