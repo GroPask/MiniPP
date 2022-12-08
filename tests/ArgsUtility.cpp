@@ -71,6 +71,7 @@ static_assert(MINI_PP_CAT(4, MINI_PP_IS_EMPTY()) == 41, "MINI_PP_IS_EMPTY is bro
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_EMPTY(a)) == 40, "MINI_PP_IS_EMPTY is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_EMPTY(ARGS_EMPTY)) == 41, "MINI_PP_IS_EMPTY is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_EMPTY(ARGS_WITH_COMMA_CALL)) == 40, "MINI_PP_IS_EMPTY is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_EMPTY(ARGS_WITH_COMMA_CALL())) == 40, "MINI_PP_IS_EMPTY is broken");
 
 ///////////////// MINI_PP_NB_ARGS /////////////////
 static_assert(MINI_PP_NB_ARGS() == 0, "MINI_PP_NB_ARGS is broken");
