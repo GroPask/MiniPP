@@ -1,6 +1,11 @@
 #ifndef MINI_PP_VERSION // Allows this file to be included from anywhere
 #include "MiniPP/MiniPP.hpp"
+#include "TestUtility.hpp"
 #endif
+
+#define IDENT(x) x
+#define TO_TEXT_WITH_PARAMS(params, x) MINI_PP_TO_TEXT(MINI_PP_CAT(params, x))
+#define IDENT_WITH_WITH_PARAMS(params, x) params x
 
 ///////////////// MINI_PP_FOR_EACH /////////////////
 enum class EnumForEach
@@ -28,6 +33,10 @@ static_assert(static_cast<int>(EnumForEach::ValueE) == 5, "MINI_PP_FOR_EACH is b
 static_assert(static_cast<int>(EnumForEach::ValueF) == 6, "MINI_PP_FOR_EACH is broken");
 static_assert(static_cast<int>(EnumForEach::ValueG) == 7, "MINI_PP_FOR_EACH is broken");
 static_assert(static_cast<int>(EnumForEach::ValueH) == 8, "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_FOR_EACH(MINI_PP_TO_TEXT, A), "A"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_FOR_EACH(MINI_PP_TO_TEXT, B, C, D), "BCD"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH(IDENT, 2))), "42"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH(IDENT, 2, 3, 4))), "42 3 4"), "MINI_PP_FOR_EACH is broken");
 
 ///////////////// MINI_PP_FOR_EACH_WITH_PARAMS /////////////////
 enum class EnumForEachWithParams
@@ -55,3 +64,7 @@ static_assert(static_cast<int>(EnumForEachWithParams::ValueBarE) == 5, "MINI_PP_
 static_assert(static_cast<int>(EnumForEachWithParams::ValueBarF) == 6, "MINI_PP_FOR_EACH_WITH_PARAMS is broken");
 static_assert(static_cast<int>(EnumForEachWithParams::ValueBarG) == 7, "MINI_PP_FOR_EACH_WITH_PARAMS is broken");
 static_assert(static_cast<int>(EnumForEachWithParams::ValueBarH) == 8, "MINI_PP_FOR_EACH_WITH_PARAMS is broken");
+static_assert(stringsEqual(MINI_PP_FOR_EACH_WITH_PARAMS(TO_TEXT_WITH_PARAMS, Foo, A), "FooA"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_FOR_EACH_WITH_PARAMS(TO_TEXT_WITH_PARAMS, Foo, B, C, D), "FooBFooCFooD"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH_WITH_PARAMS(IDENT_WITH_WITH_PARAMS, Bar, 2))), "4Bar 2"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH_WITH_PARAMS(IDENT_WITH_WITH_PARAMS, Bar, 2, 3, 4))), "4Bar 2 Bar 3 Bar 4"), "MINI_PP_FOR_EACH is broken");
