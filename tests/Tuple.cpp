@@ -85,12 +85,12 @@ static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_TUPLE_PUSH_FRONT((1, 2, 3, 4)
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_TUPLE_PUSH_FRONT(MINI_PP_TUPLE_PUSH_FRONT(MINI_PP_TUPLE_PUSH_FRONT((1), 2), 3), 4)), "(4, 3, 2, 1)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_TUPLE_PUSH_FRONT((A_B), A)), "(a, a, b)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_TUPLE_PUSH_FRONT((A_B_CALL()), A_CALL())), "(a, a, b)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_FRONT((), 1))), "4(1)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_FRONT((1), 2))), "4(2, 1)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_FRONT((1, 2, 3, 4), 5))), "4(5, 1, 2, 3, 4)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_FRONT(MINI_PP_TUPLE_PUSH_FRONT(MINI_PP_TUPLE_PUSH_FRONT((1), 2), 3), 4))), "4(4, 3, 2, 1)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_FRONT((A_B), A))), "4(a, a, b)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_FRONT((A_B_CALL()), A_CALL()))), "4(a, a, b)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_FRONT((), 1))), "4dummy (1)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_FRONT((1), 2))), "4dummy (2, 1)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_FRONT((1, 2, 3, 4), 5))), "4dummy (5, 1, 2, 3, 4)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_FRONT(MINI_PP_TUPLE_PUSH_FRONT(MINI_PP_TUPLE_PUSH_FRONT((1), 2), 3), 4))), "4dummy (4, 3, 2, 1)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_FRONT((A_B), A))), "4dummy (a, a, b)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_FRONT((A_B_CALL()), A_CALL()))), "4dummy (a, a, b)"), "MINI_PP_TUPLE_PUSH_FRONT is broken");
 
 ///////////////// MINI_PP_TUPLE_PUSH_BACK /////////////////
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_TUPLE_PUSH_BACK((), 1)), "(1)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
@@ -99,12 +99,12 @@ static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_TUPLE_PUSH_BACK((1, 2, 3, 4),
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_TUPLE_PUSH_BACK(MINI_PP_TUPLE_PUSH_BACK(MINI_PP_TUPLE_PUSH_BACK((1), 2), 3), 4)), "(1, 2, 3, 4)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_TUPLE_PUSH_BACK((A_B), A)), "(a, b, a)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_TUPLE_PUSH_BACK((A_B_CALL()), A_CALL())), "(a, b, a)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_BACK((), 1))), "4(1)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_BACK((1), 2))), "4(1, 2)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_BACK((1, 2, 3, 4), 5))), "4(1, 2, 3, 4, 5)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_BACK(MINI_PP_TUPLE_PUSH_BACK(MINI_PP_TUPLE_PUSH_BACK((1), 2), 3), 4))), "4(1, 2, 3, 4)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_BACK((A_B), A))), "4(a, b, a)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
-static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_TUPLE_PUSH_BACK((A_B_CALL()), A_CALL()))), "4(a, b, a)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_BACK((), 1))), "4dummy (1)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_BACK((1), 2))), "4dummy (1, 2)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_BACK((1, 2, 3, 4), 5))), "4dummy (1, 2, 3, 4, 5)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_BACK(MINI_PP_TUPLE_PUSH_BACK(MINI_PP_TUPLE_PUSH_BACK((1), 2), 3), 4))), "4dummy (1, 2, 3, 4)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_BACK((A_B), A))), "4dummy (a, b, a)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_PUSH_BACK((A_B_CALL()), A_CALL()))), "4dummy (a, b, a)"), "MINI_PP_TUPLE_PUSH_BACK is broken");
 
 ///////////////// MINI_PP_TUPLE_POP_FRONT /////////////////
 static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_TUPLE_POP_FRONT((1)))), "()"), "MINI_PP_TUPLE_POP_FRONT is broken");
@@ -113,12 +113,12 @@ static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP
 static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_TUPLE_POP_FRONT(MINI_PP_TUPLE_POP_FRONT(MINI_PP_TUPLE_POP_FRONT((1, 2, 3)))))), "()"), "MINI_PP_TUPLE_POP_FRONT is broken");
 static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_TUPLE_POP_FRONT((A_B)))), "(b)"), "MINI_PP_TUPLE_POP_FRONT is broken");
 static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_TUPLE_POP_FRONT((A_B_CALL())))), "(b)"), "MINI_PP_TUPLE_POP_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, MINI_PP_TUPLE_POP_FRONT((1))))), "4()"), "MINI_PP_TUPLE_POP_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, MINI_PP_TUPLE_POP_FRONT((1, 2))))), "4(2)"), "MINI_PP_TUPLE_POP_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, MINI_PP_TUPLE_POP_FRONT((1, 2, 3, 4))))), "4(2, 3, 4)"), "MINI_PP_TUPLE_POP_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, MINI_PP_TUPLE_POP_FRONT(MINI_PP_TUPLE_POP_FRONT(MINI_PP_TUPLE_POP_FRONT((1, 2, 3))))))), "4()"), "MINI_PP_TUPLE_POP_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, MINI_PP_TUPLE_POP_FRONT((A_B))))), "4(b)"), "MINI_PP_TUPLE_POP_FRONT is broken");
-static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, MINI_PP_TUPLE_POP_FRONT((A_B_CALL()))))), "4(b)"), "MINI_PP_TUPLE_POP_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_POP_FRONT((1))))), "4dummy ()"), "MINI_PP_TUPLE_POP_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_POP_FRONT((1, 2))))), "4dummy (2)"), "MINI_PP_TUPLE_POP_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_POP_FRONT((1, 2, 3, 4))))), "4dummy (2, 3, 4)"), "MINI_PP_TUPLE_POP_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_POP_FRONT(MINI_PP_TUPLE_POP_FRONT(MINI_PP_TUPLE_POP_FRONT((1, 2, 3))))))), "4dummy ()"), "MINI_PP_TUPLE_POP_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_POP_FRONT((A_B))))), "4dummy (b)"), "MINI_PP_TUPLE_POP_FRONT is broken");
+static_assert(stringsEqual(MINI_PP_EXPAND(MINI_PP_DEFER(MINI_PP_TO_TEXT)(MINI_PP_CAT(4, dummy MINI_PP_TUPLE_POP_FRONT((A_B_CALL()))))), "4dummy (b)"), "MINI_PP_TUPLE_POP_FRONT is broken");
 
 ///////////////// MINI_PP_TUPLE_GET_ELEM_0 /////////////////
 static_assert(MINI_PP_TUPLE_GET_ELEM_0((1, 2, 3, 4)) == 1, "MINI_PP_TUPLE_GET_ELEM_0 is broken");
