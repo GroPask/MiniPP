@@ -3,6 +3,16 @@
 #include "TestUtility.hpp"
 #endif
 
+////////////////////////////////////////////////////////////
+// Call With Tuple
+// Should not be used any more but keep it here for tests
+////////////////////////////////////////////////////////////
+
+#define MINI_PP_CALL_WITH_TUPLE(f, t) MINI_PP_ASSERT(MINI_PP_IS_TUPLE(t))MINI_PP_PRIVATE_CALL_WITH_TUPLE_IMPL(f, t)
+#define MINI_PP_PRIVATE_CALL_WITH_TUPLE_IMPL(f, t) MINI_PP_EXPAND(f t)
+
+////////////////////////////////////////////////////////////
+
 #define A a
 #define A_B a, b
 #define A_CALL() a
