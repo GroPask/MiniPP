@@ -2,6 +2,17 @@
 #include "MiniPP/MiniPP.hpp"
 #endif
 
+////////////////////////////////////////////////////////////
+// Switch With Or Without Va Args
+// Should not be used any more but keep it here for tests
+////////////////////////////////////////////////////////////
+
+#define MINI_PP_SWITCH_WITH_OR_WITHOUT_VA_ARGS(prefix, /*nbFixedArgs,*/ ...) MINI_PP_EXPAND_2_TIMES(MINI_PP_COMPUTE_SWITCH_WITH_OR_WITHOUT_VA_ARGS(MINI_PP_PRIVATE_SWITCH_WITH_OR_WITHOUT_VA_ARGS_IMPL, 2, prefix, __VA_ARGS__)(prefix, __VA_ARGS__))
+#define MINI_PP_PRIVATE_SWITCH_WITH_OR_WITHOUT_VA_ARGS_IMPL_WITHOUT_VA_ARGS(prefix, nbFixedArgs) MINI_PP_EXPAND(MINI_PP_COMPUTE_SWITCH_WITH_OR_WITHOUT_VA_ARGS(prefix, nbFixedArgs)())
+#define MINI_PP_PRIVATE_SWITCH_WITH_OR_WITHOUT_VA_ARGS_IMPL_WITH_VA_ARGS(prefix, nbFixedArgs, ...) MINI_PP_EXPAND(MINI_PP_COMPUTE_SWITCH_WITH_OR_WITHOUT_VA_ARGS(prefix, nbFixedArgs, __VA_ARGS__)(__VA_ARGS__))
+
+////////////////////////////////////////////////////////////
+
 #define ARGS_EMPTY
 #define ARGS_EMPTY_CALL()
 

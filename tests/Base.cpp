@@ -17,13 +17,6 @@
 
 #define NEED_2_EXPAND_CALL() VALUE_42 MINI_PP_PARENS
 
-#define EXPAND_2_TIMES(x) EXPAND_2_TIMES_IMPL(x)
-#define EXPAND_2_TIMES_IMPL(x) x
-
-#define EXPAND_3_TIMES(x) EXPAND_3_TIMES_IMPL(x)
-#define EXPAND_3_TIMES_IMPL(x) EXPAND_3_TIMES_IMPL_IMPL(x)
-#define EXPAND_3_TIMES_IMPL_IMPL(x) x
-
 ///////////////// MINI_PP_CAT /////////////////
 static_assert(MINI_PP_CAT(4, 2) == 42, "MINI_PP_CAT is broken");
 static_assert(MINI_PP_CAT(VALUE_4, 2) == 42, "MINI_PP_CAT is broken");
@@ -48,8 +41,12 @@ static_assert(MINI_PP_EXPAND(VALUE_42()) == 42, "MINI_PP_EXPAND is broken");
 static_assert(MINI_PP_EXPAND(VALUE_42 MINI_PP_PARENS) == 42, "MINI_PP_EXPAND is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND(2)) == 42, "MINI_PP_EXPAND is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND(VALUE_42())) == 442, "MINI_PP_EXPAND is broken");
-static_assert(MINI_PP_CAT(4, EXPAND_2_TIMES(VALUE_42 MINI_PP_PARENS)) == 442, "MINI_PP_EXPAND is broken");
-static_assert(MINI_PP_CAT(4, EXPAND_3_TIMES(NEED_2_EXPAND_CALL MINI_PP_PARENS)) == 442, "MINI_PP_EXPAND is broken");
+
+///////////////// MINI_PP_EXPAND_2_TIMES /////////////////
+static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND_2_TIMES(VALUE_42 MINI_PP_PARENS)) == 442, "MINI_PP_EXPAND_2_TIMES is broken");
+
+///////////////// MINI_PP_EXPAND_3_TIMES /////////////////
+static_assert(MINI_PP_CAT(4, MINI_PP_EXPAND_3_TIMES(NEED_2_EXPAND_CALL MINI_PP_PARENS)) == 442, "MINI_PP_EXPAND_3_TIMES is broken");
 
 ///////////////// MINI_PP_ASSERT /////////////////
 MINI_PP_ASSERT(1)
