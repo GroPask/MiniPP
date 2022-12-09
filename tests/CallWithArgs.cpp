@@ -3,6 +3,17 @@
 #include "TestUtility.hpp"
 #endif
 
+////////////////////////////////////////////////////////////
+// Call With Args
+// Should not be used any more but keep it here for tests
+////////////////////////////////////////////////////////////
+
+#define MINI_PP_CALL_WITH_ARGS(/*func,*/ ...) MINI_PP_EXPAND(MINI_PP_COMPUTE_SWITCH_WITH_OR_WITHOUT_VA_ARGS(MINI_PP_PRIVATE_CALL_WITH_ARGS_IMPL, 1, __VA_ARGS__)(__VA_ARGS__))
+#define MINI_PP_PRIVATE_CALL_WITH_ARGS_IMPL_WITHOUT_VA_ARGS(func) MINI_PP_EXPAND(func())
+#define MINI_PP_PRIVATE_CALL_WITH_ARGS_IMPL_WITH_VA_ARGS(func, ...) MINI_PP_EXPAND(func(__VA_ARGS__))
+
+////////////////////////////////////////////////////////////
+
 #define VALUE_4 4
 #define VALUE_2 2
 #define VALUE_42() 42
