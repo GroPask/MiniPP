@@ -4,8 +4,10 @@
 #endif
 
 #define IDENT(x) x
+#define IDENT_FOR_EACH(...) MINI_PP_FOR_EACH(IDENT, __VA_ARGS__)
 #define TO_TEXT_WITH_PARAMS(params, x) MINI_PP_TO_TEXT(MINI_PP_CAT(params, x))
 #define IDENT_WITH_WITH_PARAMS(params, x) params x
+#define IDENT_WITH_PARAMS_FOR_EACH(params, ...) MINI_PP_FOR_EACH_WITH_PARAMS(IDENT_WITH_WITH_PARAMS, params, __VA_ARGS__)
 
 ///////////////// MINI_PP_FOR_EACH /////////////////
 enum class EnumForEach
@@ -37,6 +39,8 @@ static_assert(stringsEqual(MINI_PP_FOR_EACH(MINI_PP_TO_TEXT, A), "A"), "MINI_PP_
 static_assert(stringsEqual(MINI_PP_FOR_EACH(MINI_PP_TO_TEXT, B, C, D), "BCD"), "MINI_PP_FOR_EACH is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH(IDENT, 2))), "42"), "MINI_PP_FOR_EACH is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH(IDENT, 2, 3, 4))), "42 3 4"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, IDENT_FOR_EACH(2))), "42"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, IDENT_FOR_EACH(2, 3, 4))), "42 3 4"), "MINI_PP_FOR_EACH is broken");
 
 ///////////////// MINI_PP_FOR_EACH_WITH_PARAMS /////////////////
 enum class EnumForEachWithParams
@@ -68,3 +72,5 @@ static_assert(stringsEqual(MINI_PP_FOR_EACH_WITH_PARAMS(TO_TEXT_WITH_PARAMS, Foo
 static_assert(stringsEqual(MINI_PP_FOR_EACH_WITH_PARAMS(TO_TEXT_WITH_PARAMS, Foo, B, C, D), "FooBFooCFooD"), "MINI_PP_FOR_EACH is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH_WITH_PARAMS(IDENT_WITH_WITH_PARAMS, Bar, 2))), "4Bar 2"), "MINI_PP_FOR_EACH is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH_WITH_PARAMS(IDENT_WITH_WITH_PARAMS, Bar, 2, 3, 4))), "4Bar 2 Bar 3 Bar 4"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, IDENT_WITH_PARAMS_FOR_EACH(Bar, 2))), "4Bar 2"), "MINI_PP_FOR_EACH is broken");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, IDENT_WITH_PARAMS_FOR_EACH(Bar, 2, 3, 4))), "4Bar 2 Bar 3 Bar 4"), "MINI_PP_FOR_EACH is broken");
