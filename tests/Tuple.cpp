@@ -93,6 +93,7 @@ static_assert(MINI_PP_CAT(4, MINI_PP_TUPLE_IS_EMPTY((A))) == 40, "MINI_PP_TUPLE_
 static_assert(MINI_PP_CAT(4, MINI_PP_TUPLE_IS_EMPTY((A_B))) == 40, "MINI_PP_TUPLE_IS_EMPTY is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_TUPLE_IS_EMPTY((A_CALL()))) == 40, "MINI_PP_TUPLE_IS_EMPTY is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_TUPLE_IS_EMPTY((A_B_CALL()))) == 40, "MINI_PP_TUPLE_IS_EMPTY is broken");
+static_assert(MINI_PP_NB_ARGS(42, MINI_PP_TUPLE_IS_EMPTY(())) == 2, "MINI_PP_TUPLE_IS_EMPTY is broken"); // MINI_PP_TUPLE_IS_EMPTY could "eat" previous comma when call with empty tuple 
 
 ///////////////// MINI_PP_TUPLE_SIZE /////////////////
 static_assert(MINI_PP_TUPLE_SIZE(()) == 0, "MINI_PP_TUPLE_SIZE is broken");
