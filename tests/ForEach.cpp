@@ -47,7 +47,7 @@ enum class EnumForEachWithParams
 {
     First = 0,
 
-    #define DECLARE_VALUE_WITH_PARAMS(param, x) MINI_PP_CAT(MINI_PP_CAT(Value, param), x),
+    #define DECLARE_VALUE_WITH_PARAMS(param, x) MINI_PP_CAT_3(Value, param, x),
 
     MINI_PP_FOR_EACH_WITH_PARAMS(DECLARE_VALUE_WITH_PARAMS, Foo)
     MINI_PP_FOR_EACH_WITH_PARAMS(DECLARE_VALUE_WITH_PARAMS, Foo, A)

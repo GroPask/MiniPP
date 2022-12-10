@@ -26,6 +26,22 @@ static_assert(MINI_PP_CAT(4, VALUE_42()) == 442, "MINI_PP_CAT is broken");
 static_assert(MINI_PP_CAT(4, EMPTY) == 4, "MINI_PP_CAT is broken");
 static_assert(MINI_PP_CAT(4, EMPTY_CALL()) == 4, "MINI_PP_CAT is broken");
 
+///////////////// MINI_PP_CAT_3 /////////////////
+static_assert(MINI_PP_CAT_3(4, 2, 0) == 420, "MINI_PP_CAT_3 is broken");
+static_assert(MINI_PP_CAT_3(VALUE_4, 2, 0) == 420, "MINI_PP_CAT_3 is broken");
+static_assert(MINI_PP_CAT_3(VALUE_4, VALUE_2, 0) == 420, "MINI_PP_CAT_3 is broken");
+static_assert(MINI_PP_CAT_3(4, VALUE_42(), 0) == 4420, "MINI_PP_CAT_3 is broken");
+static_assert(MINI_PP_CAT_3(4, EMPTY, 0) == 40, "MINI_PP_CAT_3 is broken");
+static_assert(MINI_PP_CAT_3(4, EMPTY_CALL(), 0) == 40, "MINI_PP_CAT_3 is broken");
+
+///////////////// MINI_PP_CAT_4 /////////////////
+static_assert(MINI_PP_CAT_4(4, 2, 0, 6) == 4206, "MINI_PP_CAT_4 is broken");
+static_assert(MINI_PP_CAT_4(VALUE_4, 2, 0, 6) == 4206, "MINI_PP_CAT_4 is broken");
+static_assert(MINI_PP_CAT_4(VALUE_4, VALUE_2, 0, 6) == 4206, "MINI_PP_CAT_4 is broken");
+static_assert(MINI_PP_CAT_4(4, VALUE_42(), 0, 6) == 44206, "MINI_PP_CAT_4 is broken");
+static_assert(MINI_PP_CAT_4(4, EMPTY, 0, 6) == 406, "MINI_PP_CAT_4 is broken");
+static_assert(MINI_PP_CAT_4(4, EMPTY_CALL(), 0, 6) == 406, "MINI_PP_CAT_4 is broken");
+
 ///////////////// MINI_PP_TO_TEXT /////////////////
 static_assert(stringsEqual(MINI_PP_TO_TEXT(42), "42"), "MINI_PP_TO_TEXT is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(VALUE_4), "4"), "MINI_PP_TO_TEXT is broken");
