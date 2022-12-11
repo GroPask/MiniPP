@@ -9,8 +9,8 @@ target_sources(${PROJECT_NAME}_Tests PRIVATE
     CallWithArgs.cpp
     ComputeSwitchWithOrWithoutVaArgs.cpp
     ForEach.cpp
-    IsEqual.cpp
     main.cpp
+    Math.cpp
     SwitchWithOrWithoutVaArgs.cpp
     TestUtility.hpp
     Tuple.cpp

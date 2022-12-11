@@ -106,7 +106,7 @@
 #define MINI_PP_PRIVATE_IS_PAREN_IMPL_CALL_CHECK(...) dummyA, dummyB
 
 ////////////////////////////////////////////////////////////
-// Is Equal
+// Math
 ////////////////////////////////////////////////////////////
 
 #define MINI_PP_IS_INT(x) MINI_PP_IS_EMPTY(MINI_PP_CAT(MINI_PP_PRIVATE_IS_INT_IMPL_, x))
