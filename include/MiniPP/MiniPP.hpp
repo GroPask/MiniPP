@@ -109,9 +109,34 @@
 // Math
 ////////////////////////////////////////////////////////////
 
-#define MINI_PP_IS_INT(x) MINI_PP_IS_EMPTY(MINI_PP_CAT(MINI_PP_PRIVATE_IS_INT_IMPL_, x))
+#define MINI_PP_IS_INT(x) MINI_PP_IS_EMPTY(MINI_PP_CAT_4(MINI_PP_PRIVATE_INT_TOOL_BASE_, x, _, x))
 
-#define MINI_PP_IS_EQUAL(a, b) MINI_PP_ASSERT(MINI_PP_AND(MINI_PP_IS_INT(a), MINI_PP_IS_INT(b)))MINI_PP_IS_EMPTY(MINI_PP_CAT_4(MINI_PP_PRIVATE_IS_EQUAL_IMPL_, a, _, b))
+#define MINI_PP_IS_EQUAL(a, b) MINI_PP_ASSERT(MINI_PP_AND(MINI_PP_IS_INT(a), MINI_PP_IS_INT(b)))MINI_PP_IS_EMPTY(MINI_PP_CAT_4(MINI_PP_PRIVATE_INT_TOOL_BASE_, a, _, b))
+
+#define MINI_PP_INC(x) MINI_PP_ASSERT(MINI_PP_IS_INT(x))MINI_PP_ASSERT(MINI_PP_NOT(MINI_PP_IS_EQUAL(0, x)))MINI_PP_TUPLE_GET_ELEM_0(MINI_PP_CAT(MINI_PP_PRIVATE_INT_TOOL_, x)(MINI_PP_PRIVATE_INC_IMPL_REPEAT, dummyParams))
+#define MINI_PP_PRIVATE_INC_IMPL_REPEAT(params, current, currentMinusOne, currentPlusOne) MINI_PP_MAKE_TUPLE(currentPlusOne)MINI_PP_PRIVATE_DEC_IMPL_DO_NOT_RECURSE
+#define MINI_PP_PRIVATE_INC_IMPL_DO_NOT_RECURSE(repeatFunc, params)
+
+#define MINI_PP_DEC(x) MINI_PP_ASSERT(MINI_PP_IS_INT(x))MINI_PP_ASSERT(MINI_PP_NOT(MINI_PP_IS_EQUAL(0, x)))MINI_PP_TUPLE_GET_ELEM_0(MINI_PP_CAT(MINI_PP_PRIVATE_INT_TOOL_, x)(MINI_PP_PRIVATE_DEC_IMPL_REPEAT, dummyParams))
+#define MINI_PP_PRIVATE_DEC_IMPL_REPEAT(params, current, currentMinusOne, currentPlusOne) MINI_PP_MAKE_TUPLE(currentMinusOne)MINI_PP_PRIVATE_DEC_IMPL_DO_NOT_RECURSE
+#define MINI_PP_PRIVATE_DEC_IMPL_DO_NOT_RECURSE(repeatFunc, params)
+
+#define MINI_PP_IS_LESS(a, b) MINI_PP_ASSERT(MINI_PP_IS_INT(a))MINI_PP_ASSERT(MINI_PP_IS_INT(b))MINI_PP_CAT(MINI_PP_PRIVATE_IS_LESS_IMPL_B_IS_0_, MINI_PP_IS_EQUAL(0, b))(a, b)
+#define MINI_PP_PRIVATE_IS_LESS_IMPL_B_IS_0_1(a, b) 0
+#define MINI_PP_PRIVATE_IS_LESS_IMPL_B_IS_0_0(a, b) MINI_PP_CAT(MINI_PP_PRIVATE_INT_TOOL_, MINI_PP_DEC(b))(MINI_PP_PRIVATE_IS_LESS_IMPL_REPEAT, a)
+#define MINI_PP_PRIVATE_IS_LESS_IMPL_REPEAT(aAsParams, current, currentMinusOne, currentPlusOne) MINI_PP_CAT(MINI_PP_PRIVATE_IS_LESS_IMPL_A_IS_EQUAL_CURRENT_, MINI_PP_IS_EQUAL(aAsParams, current))(aAsParams, current, currentMinusOne, currentPlusOne)
+#define MINI_PP_PRIVATE_IS_LESS_IMPL_A_IS_EQUAL_CURRENT_1(aAsParams, current, currentMinusOne, currentPlusOne) MINI_PP_PRIVATE_IS_LESS_IMPL_DO_NOT_RECURSE_BECAUSE_A_IS_EQUAL_CURRENT
+#define MINI_PP_PRIVATE_IS_LESS_IMPL_A_IS_EQUAL_CURRENT_0(aAsParams, current, currentMinusOne, currentPlusOne) MINI_PP_CAT(MINI_PP_PRIVATE_IS_LESS_IMPL_CURRENT_IS_EQUAL_0_, MINI_PP_IS_EQUAL(0, current))(aAsParams, current, currentMinusOne, currentPlusOne)
+#define MINI_PP_PRIVATE_IS_LESS_IMPL_CURRENT_IS_EQUAL_0_1(aAsParams, current, currentMinusOne, currentPlusOne) MINI_PP_PRIVATE_IS_LESS_IMPL_DO_NOT_RECURSE_BECAUSE_CURRENT_IS_0
+#define MINI_PP_PRIVATE_IS_LESS_IMPL_CURRENT_IS_EQUAL_0_0(aAsParams, current, currentMinusOne, currentPlusOne) MINI_PP_CAT(MINI_PP_PRIVATE_INT_TOOL_, currentMinusOne)
+#define MINI_PP_PRIVATE_IS_LESS_IMPL_DO_NOT_RECURSE_BECAUSE_CURRENT_IS_0(repeatFunc, params) 0
+#define MINI_PP_PRIVATE_IS_LESS_IMPL_DO_NOT_RECURSE_BECAUSE_A_IS_EQUAL_CURRENT(repeatFunc, params) 1
+
+#define MINI_PP_IS_MORE(a, b) MINI_PP_AND(MINI_PP_NOT(MINI_PP_IS_EQUAL(a, b)), MINI_PP_IS_LESS(b, a))
+
+#define MINI_PP_IS_LESS_OR_EQUAL(a, b) MINI_PP_NOT(MINI_PP_IS_MORE(a, b))
+
+#define MINI_PP_IS_MORE_OR_EQUAL(a, b) MINI_PP_NOT(MINI_PP_IS_LESS(a, b))
 
 #define MINI_PP_INC(x) MINI_PP_ASSERT(MINI_PP_IS_INT(x))MINI_PP_ASSERT(MINI_PP_NOT(MINI_PP_IS_EQUAL(0, x)))MINI_PP_TUPLE_GET_ELEM_0(MINI_PP_CAT(MINI_PP_PRIVATE_INT_TOOL_, x)(MINI_PP_PRIVATE_INC_IMPL_REPEAT, dummyParams))
 #define MINI_PP_PRIVATE_INC_IMPL_REPEAT(params, current, currentMinusOne, currentPlusOne) MINI_PP_MAKE_TUPLE(currentPlusOne)MINI_PP_PRIVATE_DEC_IMPL_DO_NOT_RECURSE
@@ -382,259 +407,259 @@
 #define MINI_PP_PRIVATE_LOOP_UNROLL_124(func, params, first, ...) func(params, first)  MINI_PP_EXPAND(MINI_PP_PRIVATE_LOOP_UNROLL_123(func, params, __VA_ARGS__))
 #define MINI_PP_PRIVATE_LOOP_UNROLL_125(func, params, first, ...) func(params, first)  MINI_PP_EXPAND(MINI_PP_PRIVATE_LOOP_UNROLL_124(func, params, __VA_ARGS__))
 
-#define MINI_PP_PRIVATE_IS_INT_IMPL_0
-#define MINI_PP_PRIVATE_IS_INT_IMPL_1
-#define MINI_PP_PRIVATE_IS_INT_IMPL_2
-#define MINI_PP_PRIVATE_IS_INT_IMPL_3
-#define MINI_PP_PRIVATE_IS_INT_IMPL_4
-#define MINI_PP_PRIVATE_IS_INT_IMPL_5
-#define MINI_PP_PRIVATE_IS_INT_IMPL_6
-#define MINI_PP_PRIVATE_IS_INT_IMPL_7
-#define MINI_PP_PRIVATE_IS_INT_IMPL_8
-#define MINI_PP_PRIVATE_IS_INT_IMPL_9
-#define MINI_PP_PRIVATE_IS_INT_IMPL_10
-#define MINI_PP_PRIVATE_IS_INT_IMPL_11
-#define MINI_PP_PRIVATE_IS_INT_IMPL_12
-#define MINI_PP_PRIVATE_IS_INT_IMPL_13
-#define MINI_PP_PRIVATE_IS_INT_IMPL_14
-#define MINI_PP_PRIVATE_IS_INT_IMPL_15
-#define MINI_PP_PRIVATE_IS_INT_IMPL_16
-#define MINI_PP_PRIVATE_IS_INT_IMPL_17
-#define MINI_PP_PRIVATE_IS_INT_IMPL_18
-#define MINI_PP_PRIVATE_IS_INT_IMPL_19
-#define MINI_PP_PRIVATE_IS_INT_IMPL_20
-#define MINI_PP_PRIVATE_IS_INT_IMPL_21
-#define MINI_PP_PRIVATE_IS_INT_IMPL_22
-#define MINI_PP_PRIVATE_IS_INT_IMPL_23
-#define MINI_PP_PRIVATE_IS_INT_IMPL_24
-#define MINI_PP_PRIVATE_IS_INT_IMPL_25
-#define MINI_PP_PRIVATE_IS_INT_IMPL_26
-#define MINI_PP_PRIVATE_IS_INT_IMPL_27
-#define MINI_PP_PRIVATE_IS_INT_IMPL_28
-#define MINI_PP_PRIVATE_IS_INT_IMPL_29
-#define MINI_PP_PRIVATE_IS_INT_IMPL_30
-#define MINI_PP_PRIVATE_IS_INT_IMPL_31
-#define MINI_PP_PRIVATE_IS_INT_IMPL_32
-#define MINI_PP_PRIVATE_IS_INT_IMPL_33
-#define MINI_PP_PRIVATE_IS_INT_IMPL_34
-#define MINI_PP_PRIVATE_IS_INT_IMPL_35
-#define MINI_PP_PRIVATE_IS_INT_IMPL_36
-#define MINI_PP_PRIVATE_IS_INT_IMPL_37
-#define MINI_PP_PRIVATE_IS_INT_IMPL_38
-#define MINI_PP_PRIVATE_IS_INT_IMPL_39
-#define MINI_PP_PRIVATE_IS_INT_IMPL_40
-#define MINI_PP_PRIVATE_IS_INT_IMPL_41
-#define MINI_PP_PRIVATE_IS_INT_IMPL_42
-#define MINI_PP_PRIVATE_IS_INT_IMPL_43
-#define MINI_PP_PRIVATE_IS_INT_IMPL_44
-#define MINI_PP_PRIVATE_IS_INT_IMPL_45
-#define MINI_PP_PRIVATE_IS_INT_IMPL_46
-#define MINI_PP_PRIVATE_IS_INT_IMPL_47
-#define MINI_PP_PRIVATE_IS_INT_IMPL_48
-#define MINI_PP_PRIVATE_IS_INT_IMPL_49
-#define MINI_PP_PRIVATE_IS_INT_IMPL_50
-#define MINI_PP_PRIVATE_IS_INT_IMPL_51
-#define MINI_PP_PRIVATE_IS_INT_IMPL_52
-#define MINI_PP_PRIVATE_IS_INT_IMPL_53
-#define MINI_PP_PRIVATE_IS_INT_IMPL_54
-#define MINI_PP_PRIVATE_IS_INT_IMPL_55
-#define MINI_PP_PRIVATE_IS_INT_IMPL_56
-#define MINI_PP_PRIVATE_IS_INT_IMPL_57
-#define MINI_PP_PRIVATE_IS_INT_IMPL_58
-#define MINI_PP_PRIVATE_IS_INT_IMPL_59
-#define MINI_PP_PRIVATE_IS_INT_IMPL_60
-#define MINI_PP_PRIVATE_IS_INT_IMPL_61
-#define MINI_PP_PRIVATE_IS_INT_IMPL_62
-#define MINI_PP_PRIVATE_IS_INT_IMPL_63
-#define MINI_PP_PRIVATE_IS_INT_IMPL_64
-#define MINI_PP_PRIVATE_IS_INT_IMPL_65
-#define MINI_PP_PRIVATE_IS_INT_IMPL_66
-#define MINI_PP_PRIVATE_IS_INT_IMPL_67
-#define MINI_PP_PRIVATE_IS_INT_IMPL_68
-#define MINI_PP_PRIVATE_IS_INT_IMPL_69
-#define MINI_PP_PRIVATE_IS_INT_IMPL_70
-#define MINI_PP_PRIVATE_IS_INT_IMPL_71
-#define MINI_PP_PRIVATE_IS_INT_IMPL_72
-#define MINI_PP_PRIVATE_IS_INT_IMPL_73
-#define MINI_PP_PRIVATE_IS_INT_IMPL_74
-#define MINI_PP_PRIVATE_IS_INT_IMPL_75
-#define MINI_PP_PRIVATE_IS_INT_IMPL_76
-#define MINI_PP_PRIVATE_IS_INT_IMPL_77
-#define MINI_PP_PRIVATE_IS_INT_IMPL_78
-#define MINI_PP_PRIVATE_IS_INT_IMPL_79
-#define MINI_PP_PRIVATE_IS_INT_IMPL_80
-#define MINI_PP_PRIVATE_IS_INT_IMPL_81
-#define MINI_PP_PRIVATE_IS_INT_IMPL_82
-#define MINI_PP_PRIVATE_IS_INT_IMPL_83
-#define MINI_PP_PRIVATE_IS_INT_IMPL_84
-#define MINI_PP_PRIVATE_IS_INT_IMPL_85
-#define MINI_PP_PRIVATE_IS_INT_IMPL_86
-#define MINI_PP_PRIVATE_IS_INT_IMPL_87
-#define MINI_PP_PRIVATE_IS_INT_IMPL_88
-#define MINI_PP_PRIVATE_IS_INT_IMPL_89
-#define MINI_PP_PRIVATE_IS_INT_IMPL_90
-#define MINI_PP_PRIVATE_IS_INT_IMPL_91
-#define MINI_PP_PRIVATE_IS_INT_IMPL_92
-#define MINI_PP_PRIVATE_IS_INT_IMPL_93
-#define MINI_PP_PRIVATE_IS_INT_IMPL_94
-#define MINI_PP_PRIVATE_IS_INT_IMPL_95
-#define MINI_PP_PRIVATE_IS_INT_IMPL_96
-#define MINI_PP_PRIVATE_IS_INT_IMPL_97
-#define MINI_PP_PRIVATE_IS_INT_IMPL_98
-#define MINI_PP_PRIVATE_IS_INT_IMPL_99
-#define MINI_PP_PRIVATE_IS_INT_IMPL_100
-#define MINI_PP_PRIVATE_IS_INT_IMPL_101
-#define MINI_PP_PRIVATE_IS_INT_IMPL_102
-#define MINI_PP_PRIVATE_IS_INT_IMPL_103
-#define MINI_PP_PRIVATE_IS_INT_IMPL_104
-#define MINI_PP_PRIVATE_IS_INT_IMPL_105
-#define MINI_PP_PRIVATE_IS_INT_IMPL_106
-#define MINI_PP_PRIVATE_IS_INT_IMPL_107
-#define MINI_PP_PRIVATE_IS_INT_IMPL_108
-#define MINI_PP_PRIVATE_IS_INT_IMPL_109
-#define MINI_PP_PRIVATE_IS_INT_IMPL_110
-#define MINI_PP_PRIVATE_IS_INT_IMPL_111
-#define MINI_PP_PRIVATE_IS_INT_IMPL_112
-#define MINI_PP_PRIVATE_IS_INT_IMPL_113
-#define MINI_PP_PRIVATE_IS_INT_IMPL_114
-#define MINI_PP_PRIVATE_IS_INT_IMPL_115
-#define MINI_PP_PRIVATE_IS_INT_IMPL_116
-#define MINI_PP_PRIVATE_IS_INT_IMPL_117
-#define MINI_PP_PRIVATE_IS_INT_IMPL_118
-#define MINI_PP_PRIVATE_IS_INT_IMPL_119
-#define MINI_PP_PRIVATE_IS_INT_IMPL_120
-#define MINI_PP_PRIVATE_IS_INT_IMPL_121
-#define MINI_PP_PRIVATE_IS_INT_IMPL_122
-#define MINI_PP_PRIVATE_IS_INT_IMPL_123
-#define MINI_PP_PRIVATE_IS_INT_IMPL_124
-#define MINI_PP_PRIVATE_IS_INT_IMPL_125
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_0_0
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_1_1
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_2_2
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_3_3
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_4_4
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_5_5
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_6_6
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_7_7
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_8_8
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_9_9
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_10_10
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_11_11
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_12_12
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_13_13
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_14_14
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_15_15
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_16_16
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_17_17
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_18_18
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_19_19
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_20_20
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_21_21
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_22_22
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_23_23
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_24_24
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_25_25
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_26_26
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_27_27
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_28_28
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_29_29
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_30_30
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_31_31
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_32_32
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_33_33
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_34_34
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_35_35
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_36_36
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_37_37
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_38_38
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_39_39
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_40_40
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_41_41
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_42_42
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_43_43
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_44_44
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_45_45
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_46_46
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_47_47
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_48_48
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_49_49
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_50_50
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_51_51
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_52_52
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_53_53
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_54_54
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_55_55
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_56_56
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_57_57
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_58_58
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_59_59
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_60_60
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_61_61
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_62_62
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_63_63
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_64_64
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_65_65
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_66_66
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_67_67
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_68_68
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_69_69
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_70_70
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_71_71
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_72_72
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_73_73
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_74_74
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_75_75
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_76_76
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_77_77
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_78_78
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_79_79
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_80_80
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_81_81
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_82_82
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_83_83
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_84_84
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_85_85
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_86_86
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_87_87
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_88_88
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_89_89
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_90_90
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_91_91
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_92_92
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_93_93
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_94_94
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_95_95
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_96_96
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_97_97
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_98_98
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_99_99
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_100_100
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_101_101
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_102_102
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_103_103
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_104_104
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_105_105
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_106_106
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_107_107
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_108_108
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_109_109
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_110_110
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_111_111
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_112_112
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_113_113
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_114_114
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_115_115
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_116_116
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_117_117
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_118_118
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_119_119
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_120_120
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_121_121
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_122_122
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_123_123
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_124_124
+#define MINI_PP_PRIVATE_INT_TOOL_BASE_125_125
 
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_0_0
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_1_1
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_2_2
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_3_3
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_4_4
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_5_5
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_6_6
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_7_7
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_8_8
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_9_9
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_10_10
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_11_11
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_12_12
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_13_13
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_14_14
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_15_15
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_16_16
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_17_17
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_18_18
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_19_19
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_20_20
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_21_21
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_22_22
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_23_23
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_24_24
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_25_25
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_26_26
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_27_27
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_28_28
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_29_29
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_30_30
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_31_31
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_32_32
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_33_33
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_34_34
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_35_35
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_36_36
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_37_37
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_38_38
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_39_39
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_40_40
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_41_41
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_42_42
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_43_43
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_44_44
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_45_45
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_46_46
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_47_47
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_48_48
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_49_49
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_50_50
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_51_51
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_52_52
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_53_53
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_54_54
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_55_55
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_56_56
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_57_57
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_58_58
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_59_59
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_60_60
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_61_61
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_62_62
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_63_63
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_64_64
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_65_65
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_66_66
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_67_67
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_68_68
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_69_69
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_70_70
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_71_71
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_72_72
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_73_73
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_74_74
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_75_75
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_76_76
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_77_77
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_78_78
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_79_79
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_80_80
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_81_81
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_82_82
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_83_83
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_84_84
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_85_85
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_86_86
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_87_87
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_88_88
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_89_89
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_90_90
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_91_91
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_92_92
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_93_93
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_94_94
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_95_95
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_96_96
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_97_97
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_98_98
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_99_99
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_100_100
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_101_101
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_102_102
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_103_103
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_104_104
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_105_105
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_106_106
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_107_107
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_108_108
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_109_109
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_110_110
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_111_111
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_112_112
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_113_113
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_114_114
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_115_115
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_116_116
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_117_117
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_118_118
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_119_119
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_120_120
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_121_121
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_122_122
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_123_123
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_124_124
-#define MINI_PP_PRIVATE_IS_EQUAL_IMPL_125_125
+#define MINI_PP_PRIVATE_INT_TOOL_0(repeatFunc, params) repeatFunc(params, 0, NONE, 1)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_1(repeatFunc, params) repeatFunc(params, 1, 0, 2)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_2(repeatFunc, params) repeatFunc(params, 2, 1, 3)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_3(repeatFunc, params) repeatFunc(params, 3, 2, 4)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_4(repeatFunc, params) repeatFunc(params, 4, 3, 5)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_5(repeatFunc, params) repeatFunc(params, 5, 4, 6)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_6(repeatFunc, params) repeatFunc(params, 6, 5, 7)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_7(repeatFunc, params) repeatFunc(params, 7, 6, 8)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_8(repeatFunc, params) repeatFunc(params, 8, 7, 9)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_9(repeatFunc, params) repeatFunc(params, 9, 8, 10)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_10(repeatFunc, params) repeatFunc(params, 10, 9, 11)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_11(repeatFunc, params) repeatFunc(params, 11, 10, 12)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_12(repeatFunc, params) repeatFunc(params, 12, 11, 13)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_13(repeatFunc, params) repeatFunc(params, 13, 12, 14)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_14(repeatFunc, params) repeatFunc(params, 14, 13, 15)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_15(repeatFunc, params) repeatFunc(params, 15, 14, 16)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_16(repeatFunc, params) repeatFunc(params, 16, 15, 17)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_17(repeatFunc, params) repeatFunc(params, 17, 16, 18)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_18(repeatFunc, params) repeatFunc(params, 18, 17, 19)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_19(repeatFunc, params) repeatFunc(params, 19, 18, 20)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_20(repeatFunc, params) repeatFunc(params, 20, 19, 21)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_21(repeatFunc, params) repeatFunc(params, 21, 20, 22)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_22(repeatFunc, params) repeatFunc(params, 22, 21, 23)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_23(repeatFunc, params) repeatFunc(params, 23, 22, 24)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_24(repeatFunc, params) repeatFunc(params, 24, 23, 25)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_25(repeatFunc, params) repeatFunc(params, 25, 24, 26)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_26(repeatFunc, params) repeatFunc(params, 26, 25, 27)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_27(repeatFunc, params) repeatFunc(params, 27, 26, 28)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_28(repeatFunc, params) repeatFunc(params, 28, 27, 29)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_29(repeatFunc, params) repeatFunc(params, 29, 28, 30)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_30(repeatFunc, params) repeatFunc(params, 30, 29, 31)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_31(repeatFunc, params) repeatFunc(params, 31, 30, 32)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_32(repeatFunc, params) repeatFunc(params, 32, 31, 33)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_33(repeatFunc, params) repeatFunc(params, 33, 32, 34)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_34(repeatFunc, params) repeatFunc(params, 34, 33, 35)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_35(repeatFunc, params) repeatFunc(params, 35, 34, 36)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_36(repeatFunc, params) repeatFunc(params, 36, 35, 37)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_37(repeatFunc, params) repeatFunc(params, 37, 36, 38)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_38(repeatFunc, params) repeatFunc(params, 38, 37, 39)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_39(repeatFunc, params) repeatFunc(params, 39, 38, 40)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_40(repeatFunc, params) repeatFunc(params, 40, 39, 41)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_41(repeatFunc, params) repeatFunc(params, 41, 40, 42)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_42(repeatFunc, params) repeatFunc(params, 42, 41, 43)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_43(repeatFunc, params) repeatFunc(params, 43, 42, 44)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_44(repeatFunc, params) repeatFunc(params, 44, 43, 45)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_45(repeatFunc, params) repeatFunc(params, 45, 44, 46)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_46(repeatFunc, params) repeatFunc(params, 46, 45, 47)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_47(repeatFunc, params) repeatFunc(params, 47, 46, 48)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_48(repeatFunc, params) repeatFunc(params, 48, 47, 49)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_49(repeatFunc, params) repeatFunc(params, 49, 48, 50)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_50(repeatFunc, params) repeatFunc(params, 50, 49, 51)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_51(repeatFunc, params) repeatFunc(params, 51, 50, 52)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_52(repeatFunc, params) repeatFunc(params, 52, 51, 53)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_53(repeatFunc, params) repeatFunc(params, 53, 52, 54)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_54(repeatFunc, params) repeatFunc(params, 54, 53, 55)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_55(repeatFunc, params) repeatFunc(params, 55, 54, 56)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_56(repeatFunc, params) repeatFunc(params, 56, 55, 57)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_57(repeatFunc, params) repeatFunc(params, 57, 56, 58)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_58(repeatFunc, params) repeatFunc(params, 58, 57, 59)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_59(repeatFunc, params) repeatFunc(params, 59, 58, 60)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_60(repeatFunc, params) repeatFunc(params, 60, 59, 61)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_61(repeatFunc, params) repeatFunc(params, 61, 60, 62)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_62(repeatFunc, params) repeatFunc(params, 62, 61, 63)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_63(repeatFunc, params) repeatFunc(params, 63, 62, 64)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_64(repeatFunc, params) repeatFunc(params, 64, 63, 65)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_65(repeatFunc, params) repeatFunc(params, 65, 64, 66)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_66(repeatFunc, params) repeatFunc(params, 66, 65, 67)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_67(repeatFunc, params) repeatFunc(params, 67, 66, 68)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_68(repeatFunc, params) repeatFunc(params, 68, 67, 69)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_69(repeatFunc, params) repeatFunc(params, 69, 68, 70)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_70(repeatFunc, params) repeatFunc(params, 70, 69, 71)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_71(repeatFunc, params) repeatFunc(params, 71, 70, 72)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_72(repeatFunc, params) repeatFunc(params, 72, 71, 73)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_73(repeatFunc, params) repeatFunc(params, 73, 72, 74)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_74(repeatFunc, params) repeatFunc(params, 74, 73, 75)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_75(repeatFunc, params) repeatFunc(params, 75, 74, 76)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_76(repeatFunc, params) repeatFunc(params, 76, 75, 77)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_77(repeatFunc, params) repeatFunc(params, 77, 76, 78)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_78(repeatFunc, params) repeatFunc(params, 78, 77, 79)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_79(repeatFunc, params) repeatFunc(params, 79, 78, 80)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_80(repeatFunc, params) repeatFunc(params, 80, 79, 81)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_81(repeatFunc, params) repeatFunc(params, 81, 80, 82)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_82(repeatFunc, params) repeatFunc(params, 82, 81, 83)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_83(repeatFunc, params) repeatFunc(params, 83, 82, 84)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_84(repeatFunc, params) repeatFunc(params, 84, 83, 85)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_85(repeatFunc, params) repeatFunc(params, 85, 84, 86)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_86(repeatFunc, params) repeatFunc(params, 86, 85, 87)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_87(repeatFunc, params) repeatFunc(params, 87, 86, 88)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_88(repeatFunc, params) repeatFunc(params, 88, 87, 89)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_89(repeatFunc, params) repeatFunc(params, 89, 88, 90)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_90(repeatFunc, params) repeatFunc(params, 90, 89, 91)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_91(repeatFunc, params) repeatFunc(params, 91, 90, 92)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_92(repeatFunc, params) repeatFunc(params, 92, 91, 93)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_93(repeatFunc, params) repeatFunc(params, 93, 92, 94)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_94(repeatFunc, params) repeatFunc(params, 94, 93, 95)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_95(repeatFunc, params) repeatFunc(params, 95, 94, 96)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_96(repeatFunc, params) repeatFunc(params, 96, 95, 97)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_97(repeatFunc, params) repeatFunc(params, 97, 96, 98)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_98(repeatFunc, params) repeatFunc(params, 98, 97, 99)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_99(repeatFunc, params) repeatFunc(params, 99, 98, 100)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_100(repeatFunc, params) repeatFunc(params, 100, 99, 101)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_101(repeatFunc, params) repeatFunc(params, 101, 100, 102)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_102(repeatFunc, params) repeatFunc(params, 102, 101, 103)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_103(repeatFunc, params) repeatFunc(params, 103, 102, 104)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_104(repeatFunc, params) repeatFunc(params, 104, 103, 105)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_105(repeatFunc, params) repeatFunc(params, 105, 104, 106)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_106(repeatFunc, params) repeatFunc(params, 106, 105, 107)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_107(repeatFunc, params) repeatFunc(params, 107, 106, 108)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_108(repeatFunc, params) repeatFunc(params, 108, 107, 109)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_109(repeatFunc, params) repeatFunc(params, 109, 108, 110)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_110(repeatFunc, params) repeatFunc(params, 110, 109, 111)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_111(repeatFunc, params) repeatFunc(params, 111, 110, 112)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_112(repeatFunc, params) repeatFunc(params, 112, 111, 113)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_113(repeatFunc, params) repeatFunc(params, 113, 112, 114)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_114(repeatFunc, params) repeatFunc(params, 114, 113, 115)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_115(repeatFunc, params) repeatFunc(params, 115, 114, 116)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_116(repeatFunc, params) repeatFunc(params, 116, 115, 117)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_117(repeatFunc, params) repeatFunc(params, 117, 116, 118)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_118(repeatFunc, params) repeatFunc(params, 118, 117, 119)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_119(repeatFunc, params) repeatFunc(params, 119, 118, 120)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_120(repeatFunc, params) repeatFunc(params, 120, 119, 121)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_121(repeatFunc, params) repeatFunc(params, 121, 120, 122)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_122(repeatFunc, params) repeatFunc(params, 122, 121, 123)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_123(repeatFunc, params) repeatFunc(params, 123, 122, 124)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_124(repeatFunc, params) repeatFunc(params, 124, 123, 125)(repeatFunc, params)
+#define MINI_PP_PRIVATE_INT_TOOL_125(repeatFunc, params) repeatFunc(params, 125, 124, NONE)(repeatFunc, params)
 
 #define MINI_PP_PRIVATE_INT_TOOL_0(repeatFunc, params) repeatFunc(params, 0, NONE, 1)(repeatFunc, params)
 #define MINI_PP_PRIVATE_INT_TOOL_1(repeatFunc, params) repeatFunc(params, 1, 0, 2)(repeatFunc, params)
