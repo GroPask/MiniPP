@@ -93,3 +93,8 @@ static_assert(42 CHECK_IS_INT(dummyParams, MINI_PP_MAX_NB_ARGS) == 42, "MINI_PP_
 #define CHECK_IS_EQUAL(params, x) + MINI_PP_CAT(0, MINI_PP_CAT_4(MINI_PP_PRIVATE_IS_EQUAL_IMPL_, x, _, x))
 static_assert(42 CALL_UNROLL(MINI_PP_CAT(MINI_PP_PRIVATE_LOOP_UNROLL_, MINI_PP_MAX_NB_ARGS), CHECK_IS_EQUAL, /*dummyParams,*/ MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0) == 42, "MINI_PP_PRIVATE_IS_EQUAL_IMPL_ is broken");
 static_assert(42 CHECK_IS_EQUAL(dummyParams, MINI_PP_MAX_NB_ARGS) == 42, "MINI_PP_PRIVATE_IS_EQUAL_IMPL_ is broken");
+
+///////////////// MINI_PP_PRIVATE_INT_TOOL_ /////////////////
+#define TEST_INT_TOOL_REPEAT(params, current, currentMinusOne, currentPlusOne) + params MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(0, current), TEST_INT_TOOL_DO_NOT_RECURSE, MINI_PP_CAT(MINI_PP_PRIVATE_INT_TOOL_, currentMinusOne))
+#define TEST_INT_TOOL_DO_NOT_RECURSE(repeatFunc, params)
+static_assert(4 MINI_PP_CAT(MINI_PP_PRIVATE_INT_TOOL_, MINI_PP_MAX_NB_ARGS)(TEST_INT_TOOL_REPEAT, 2) == 4 + 2 * (MINI_PP_MAX_NB_ARGS + 1), "MINI_PP_PRIVATE_INT_TOOL_ is broken");
