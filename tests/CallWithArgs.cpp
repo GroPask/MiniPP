@@ -8,9 +8,9 @@
 // Should not be used any more but keep it here for tests
 ////////////////////////////////////////////////////////////
 
-#define MINI_PP_CALL_WITH_ARGS(/*func,*/ ...) MINI_PP_EXPAND(MINI_PP_COMPUTE_SWITCH_WITH_OR_WITHOUT_VA_ARGS(MINI_PP_PRIVATE_CALL_WITH_ARGS_IMPL, 1, __VA_ARGS__)(__VA_ARGS__))
-#define MINI_PP_PRIVATE_CALL_WITH_ARGS_IMPL_WITHOUT_VA_ARGS(func) MINI_PP_EXPAND(func())
-#define MINI_PP_PRIVATE_CALL_WITH_ARGS_IMPL_WITH_VA_ARGS(func, ...) MINI_PP_EXPAND(func(__VA_ARGS__))
+#define MINI_PP_CALL_WITH_ARGS(/*func,*/ ...) MINI_PP_EXPAND(MINI_PP_CAT_IS_MORE_THAN_1_ARGS(MINI_PP_PRIVATE_CALL_WITH_ARGS_IMPL_WITH_VA_ARGS_, __VA_ARGS__)(__VA_ARGS__))
+#define MINI_PP_PRIVATE_CALL_WITH_ARGS_IMPL_WITH_VA_ARGS_0(func) MINI_PP_EXPAND(func())
+#define MINI_PP_PRIVATE_CALL_WITH_ARGS_IMPL_WITH_VA_ARGS_1(func, ...) MINI_PP_EXPAND(func(__VA_ARGS__))
 
 ////////////////////////////////////////////////////////////
 
