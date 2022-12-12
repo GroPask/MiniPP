@@ -63,6 +63,134 @@ static_assert(MINI_PP_CAT(4, MINI_PP_IS_EQUAL(ONE(), 42)) == 40, "MINI_PP_IS_EQU
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_EQUAL(ONE(), ONE())) == 41, "MINI_PP_IS_EQUAL is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_EQUAL(MINI_PP_MAX_NB_ARGS, MINI_PP_MAX_NB_ARGS)) == 41, "MINI_PP_IS_EQUAL is broken");
 
+///////////////// MINI_PP_INC /////////////////
+static_assert(MINI_PP_INC(7) == 8, "MINI_PP_INC is broken");
+static_assert(MINI_PP_INC(ONE()) == 2, "MINI_PP_INC is broken");
+static_assert(MINI_PP_INC(FOUR) == 5, "MINI_PP_INC is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_INC(7)) == 48, "MINI_PP_INC is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_INC(ONE())) == 42, "MINI_PP_INC is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_INC(FOUR)) == 45, "MINI_PP_INC is broken");
+
+///////////////// MINI_PP_DEC /////////////////
+static_assert(MINI_PP_DEC(7) == 6, "MINI_PP_DEC is broken");
+static_assert(MINI_PP_DEC(ONE()) == 0, "MINI_PP_DEC is broken");
+static_assert(MINI_PP_DEC(FOUR) == 3, "MINI_PP_DEC is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_DEC(7)) == 46, "MINI_PP_DEC is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_DEC(ONE())) == 40, "MINI_PP_DEC is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_DEC(FOUR)) == 43, "MINI_PP_DEC is broken");
+
+///////////////// MINI_PP_IS_LESS /////////////////
+static_assert(MINI_PP_IS_LESS(42, 42) == 0, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(2, 42) == 1, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(42, 2) == 0, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(41, 42) == 1, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(42, 41) == 0, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(40, 42) == 1, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(42, 40) == 0, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(0, 42) == 1, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(42, 0) == 0, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(0, 0) == 0, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(MINI_PP_MAX_NB_ARGS, 42) == 0, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(42, MINI_PP_MAX_NB_ARGS) == 1, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_IS_LESS(MINI_PP_MAX_NB_ARGS, MINI_PP_MAX_NB_ARGS) == 0, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(42, 42)) == 40, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(2, 42)) == 41, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(42, 2)) == 40, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(41, 42)) == 41, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(42, 41)) == 40, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(40, 42)) == 41, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(42, 40)) == 40, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(0, 42)) == 41, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(42, 0)) == 40, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(0, 0)) == 40, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(MINI_PP_MAX_NB_ARGS, 42)) == 40, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(42, MINI_PP_MAX_NB_ARGS)) == 41, "MINI_PP_IS_LESS is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS(MINI_PP_MAX_NB_ARGS, MINI_PP_MAX_NB_ARGS)) == 40, "MINI_PP_IS_LESS is broken");
+
+///////////////// MINI_PP_IS_MORE /////////////////
+static_assert(MINI_PP_IS_MORE(42, 42) == 0, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(2, 42) == 0, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(42, 2) == 1, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(41, 42) == 0, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(42, 41) == 1, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(40, 42) == 0, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(42, 40) == 1, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(0, 42) == 0, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(42, 0) == 1, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(0, 0) == 0, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(MINI_PP_MAX_NB_ARGS, 42) == 1, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(42, MINI_PP_MAX_NB_ARGS) == 0, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_IS_MORE(MINI_PP_MAX_NB_ARGS, MINI_PP_MAX_NB_ARGS) == 0, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(42, 42)) == 40, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(2, 42)) == 40, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(42, 2)) == 41, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(41, 42)) == 40, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(42, 41)) == 41, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(40, 42)) == 40, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(42, 40)) == 41, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(0, 42)) == 40, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(42, 0)) == 41, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(0, 0)) == 40, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(MINI_PP_MAX_NB_ARGS, 42)) == 41, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(42, MINI_PP_MAX_NB_ARGS)) == 40, "MINI_PP_IS_MORE is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE(MINI_PP_MAX_NB_ARGS, MINI_PP_MAX_NB_ARGS)) == 40, "MINI_PP_IS_MORE is broken");
+
+///////////////// MINI_PP_IS_LESS_OR_EQUAL /////////////////
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(42, 42) == 1, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(2, 42) == 1, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(42, 2) == 0, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(41, 42) == 1, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(42, 41) == 0, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(40, 42) == 1, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(42, 40) == 0, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(0, 42) == 1, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(42, 0) == 0, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(0, 0) == 1, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(MINI_PP_MAX_NB_ARGS, 42) == 0, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(42, MINI_PP_MAX_NB_ARGS) == 1, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_LESS_OR_EQUAL(MINI_PP_MAX_NB_ARGS, MINI_PP_MAX_NB_ARGS) == 1, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(42, 42)) == 41, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(2, 42)) == 41, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(42, 2)) == 40, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(41, 42)) == 41, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(42, 41)) == 40, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(40, 42)) == 41, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(42, 40)) == 40, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(0, 42)) == 41, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(42, 0)) == 40, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(0, 0)) == 41, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(MINI_PP_MAX_NB_ARGS, 42)) == 40, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(42, MINI_PP_MAX_NB_ARGS)) == 41, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_LESS_OR_EQUAL(MINI_PP_MAX_NB_ARGS, MINI_PP_MAX_NB_ARGS)) == 41, "MINI_PP_IS_LESS_OR_EQUAL is broken");
+
+///////////////// MINI_PP_IS_MORE_OR_EQUAL /////////////////
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(42, 42) == 1, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(2, 42) == 0, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(42, 2) == 1, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(41, 42) == 0, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(42, 41) == 1, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(40, 42) == 0, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(42, 40) == 1, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(0, 42) == 0, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(42, 0) == 1, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(0, 0) == 1, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(MINI_PP_MAX_NB_ARGS, 42) == 1, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(42, MINI_PP_MAX_NB_ARGS) == 0, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_IS_MORE_OR_EQUAL(MINI_PP_MAX_NB_ARGS, MINI_PP_MAX_NB_ARGS) == 1, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(42, 42)) == 41, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(2, 42)) == 40, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(42, 2)) == 41, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(41, 42)) == 40, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(42, 41)) == 41, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(40, 42)) == 40, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(42, 40)) == 41, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(0, 42)) == 40, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(42, 0)) == 41, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(0, 0)) == 41, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(MINI_PP_MAX_NB_ARGS, 42)) == 41, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(42, MINI_PP_MAX_NB_ARGS)) == 40, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_IS_MORE_OR_EQUAL(MINI_PP_MAX_NB_ARGS, MINI_PP_MAX_NB_ARGS)) == 41, "MINI_PP_IS_MORE_OR_EQUAL is broken");
+
 ///////////////// MINI_PP_IS_EQUAL_0 /////////////////
 static_assert(MINI_PP_IS_EQUAL_0(0) == 1, "MINI_PP_IS_EQUAL_0 is broken");
 static_assert(MINI_PP_IS_EQUAL_0(1) == 0, "MINI_PP_IS_EQUAL_0 is broken");
