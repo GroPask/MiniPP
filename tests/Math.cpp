@@ -27,8 +27,6 @@
 #define FOO foo
 #define FOO_CALL() foo
 
-#define DUAL_TEST_IS_INT(a, b) MINI_PP_ASSERT(MINI_PP_IS_INT(42))MINI_PP_CAT(MINI_PP_IS_INT(a), MINI_PP_IS_INT(b))
-
 ///////////////// MINI_PP_IS_INT /////////////////
 static_assert(MINI_PP_IS_INT(42) == 1, "MINI_PP_IS_INT is broken");
 static_assert(MINI_PP_IS_INT(foo) == 0, "MINI_PP_IS_INT is broken");
@@ -37,9 +35,6 @@ static_assert(MINI_PP_IS_INT(ONE()) == 1, "MINI_PP_IS_INT is broken");
 static_assert(MINI_PP_IS_INT(ONE) == 0, "MINI_PP_IS_INT is broken");
 static_assert(MINI_PP_IS_INT(FOO) == 0, "MINI_PP_IS_INT is broken");
 static_assert(MINI_PP_IS_INT(FOO_CALL()) == 0, "MINI_PP_IS_INT is broken");
-
-static_assert(DUAL_TEST_IS_INT(42, 123) == 11, "MINI_PP_IS_INT is broken");
-
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_INT(42)) == 41, "MINI_PP_IS_INT is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_INT(foo)) == 40, "MINI_PP_IS_INT is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_INT(ZERO)) == 41, "MINI_PP_IS_INT is broken");
