@@ -142,7 +142,7 @@
 // Cat Is More Than 1 Args
 ////////////////////////////////////////////////////////////
 
-#define MINI_PP_CAT_IS_MORE_THAN_1_ARGS(prefix, ...) MINI_PP_CAT(prefix, MINI_PP_IS_MORE(MINI_PP_NB_ARGS(__VA_ARGS__), 1))
+#define MINI_PP_CAT_IS_MORE_THAN_1_ARGS(prefix, ...) MINI_PP_CAT(prefix, MINI_PP_IS_LESS(1, MINI_PP_NB_ARGS(__VA_ARGS__)))
 
 ////////////////////////////////////////////////////////////
 // Tuple
