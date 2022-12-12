@@ -3,6 +3,17 @@
 #include "TestUtility.hpp"
 #endif
 
+////////////////////////////////////////////////////////////
+// Compute Switch With Or Without Va Args
+// Should not be used any more but keep it here for tests
+////////////////////////////////////////////////////////////
+
+#define MINI_PP_COMPUTE_SWITCH_WITH_OR_WITHOUT_VA_ARGS(prefix, /*nbFixedArgs,*/ ...) MINI_PP_EXPAND_2_TIMES(MINI_PP_CAT_IS_MORE_THAN_1_ARGS(MINI_PP_PRIVATE_COMPUTE_SWITCH_WITH_OR_WITHOUT_VA_ARGS_IMPL_WITH_VA_ARGS_, __VA_ARGS__)(prefix, __VA_ARGS__))
+#define MINI_PP_PRIVATE_COMPUTE_SWITCH_WITH_OR_WITHOUT_VA_ARGS_IMPL_WITH_VA_ARGS_0(prefix, nbFixedArgs) MINI_PP_CAT(prefix, _WITHOUT_VA_ARGS)
+#define MINI_PP_PRIVATE_COMPUTE_SWITCH_WITH_OR_WITHOUT_VA_ARGS_IMPL_WITH_VA_ARGS_1(prefix, nbFixedArgs, ...) MINI_PP_CAT(prefix, MINI_PP_IF_ELSE(MINI_PP_IS_MORE(MINI_PP_NB_ARGS(__VA_ARGS__), nbFixedArgs), _WITH_VA_ARGS, _WITHOUT_VA_ARGS))
+
+////////////////////////////////////////////////////////////
+
 #define ARGS_EMPTY
 #define ARGS_EMPTY_CALL()
 
