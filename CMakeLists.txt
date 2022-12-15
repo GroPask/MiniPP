@@ -8,6 +8,7 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif ()
 
 option(MINI_PP_BUILD_TESTS "Build tests programs" ${MINI_PP_TOP_LEVEL_PROJECT})
+option(MINI_PP_BUILD_GENERATORS "Build generators programs" ${MINI_PP_TOP_LEVEL_PROJECT})
 option(MINI_PP_INSTALL "Generate the install target" ${MINI_PP_TOP_LEVEL_PROJECT})
 
 include(FetchContent)
@@ -35,6 +36,10 @@ add_subdirectory(include/MiniPP)
 dp_configure_target(${PROJECT_NAME}
     AUTO_SOURCE_GROUP
 )
+
+if (MINI_PP_BUILD_GENERATORS)
+    add_subdirectory(generators)
+endif ()
 
 if (MINI_PP_BUILD_TESTS)
     add_subdirectory(tests)
