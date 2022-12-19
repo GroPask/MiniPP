@@ -1,16 +1,18 @@
 include(${CMAKE_CURRENT_LIST_DIR}/MiniPPGenerator.cmake)
 
-#set(myVar "Begin of file\n")
-#mini_pp_generate_unroll(myVar 0 125)
-
 file(READ ${miniPPMainGeneratorInOutFile} inOutFileContent)
 
-string(FIND ${inOutFileContent} "// Unroll Utility" unrollUtilityBegin)
+string(FIND ${inOutFileContent} "#define MINI_PP_MAX_NB_ARGS" nbArgsDefineBegin)
+if (${nbArgsDefineBegin} EQUAL -1)
+	return()
+endif ()
+string(SUBSTRING ${inOutFileContent} 0 ${nbArgsDefineBegin} inOutFileContent)
 
-message("miniPPMainGeneratorInOutFile ${miniPPMainGeneratorInOutFile}")
-
-
-# "Unroll Utility"
+mini_pp_private_generate_basic_arg_tools(inOutFileContent 125)
+string(APPEND inOutFileContent "\n")
+mini_pp_private_generate_for_each(inOutFileContent 0 125)
+string(APPEND inOutFileContent "\n")
+mini_pp_private_generate_int_tools(inOutFileContent 0 256)
+string(APPEND inOutFileContent "\n#endif\n")
 
 file(WRITE ${miniPPMainGeneratorInOutFile} ${inOutFileContent})
-

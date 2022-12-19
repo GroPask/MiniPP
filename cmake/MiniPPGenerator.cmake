@@ -37,7 +37,7 @@ function (mini_pp_private_go_to_next_short_name outVar shortName)
     string(LENGTH ${shortName} shortNameLength)
     math(EXPR symbolIndex "${shortNameLength} - 1")
 
-    while (true)
+    while (0 LESS 1)
         string(SUBSTRING ${shortName} ${symbolIndex} 1 symbol)
         string(FIND ${miniPPPrivateAvailableSynbols} ${symbol} symbolIndexInTable)
 
@@ -89,14 +89,44 @@ function (mini_pp_private_generate_short_name outVar shortNameIndex)
     set_property(GLOBAL PROPERTY miniPPPrivateGeneratedShortNameCache ${shortNameCache})
 endfunction ()
 
-function (mini_pp_private_for_each inOutStringVar from to)
+function (mini_pp_private_generate_basic_arg_tools inOutStringVar maxNbArgs) # Check ${maxNbArgs} >= 1 ?
+    set(result ${${inOutStringVar}})
+
+    string(APPEND result "#define MINI_PP_MAX_NB_ARGS ${maxNbArgs}\n\n")
+
+    string(APPEND result "#define MINI_PP_PRIVATE_ARG_SEQ_MAX_MINUS_ONE_TRUE_THEN_FALSE ")
+    if (${maxNbArgs} GREATER_EQUAL 2)
+        foreach (i RANGE 2 ${maxNbArgs})
+            string(APPEND result "1,")
+        endforeach ()
+    endif ()
+    string(APPEND result "0\n")
+
+    string(APPEND result "#define MINI_PP_PRIVATE_ARG_SEQ_MAX_TO_0 ")
+    foreach (i RANGE ${maxNbArgs} 1)
+        string(APPEND result "${i},")
+    endforeach ()
+    string(APPEND result "0\n")
+
+    string(APPEND result "#define MINI_PP_PRIVATE_GET_ARG_INDEX_MAX(")
+    foreach (i RANGE 0 ${maxNbArgs})
+        mini_pp_private_generate_short_name(argName ${i})
+        string(APPEND result "${argName},")
+    endforeach ()
+    mini_pp_private_generate_short_name(lastArgName ${maxNbArgs})
+    string(APPEND result "...)${argName}\n")
+
+    set(${inOutStringVar} ${result} PARENT_SCOPE)
+endfunction ()
+
+function (mini_pp_private_generate_for_each inOutStringVar from to) # Check ${from} <= ${to} ?  Check ${from} >= 0 ?
     set(result ${${inOutStringVar}})
 
     foreach (variationIndex RANGE ${from} ${to})
         mini_pp_private_generate_short_name(funcArgName 0)
         mini_pp_private_generate_short_name(paramsArgName 1)
 
-        string(APPEND result "#define MINI_PP_PRIVATE_FOREACH${variationIndex}(${funcArgName},${paramsArgName}")
+        string(APPEND result "#define MINI_PP_PRIVATE_LOOP_UNROLL_${variationIndex}(${funcArgName},${paramsArgName}")
 
         math(EXPR lastArgIndex "${variationIndex} + 1")
 
@@ -126,3 +156,29 @@ function (mini_pp_private_for_each inOutStringVar from to)
 
     set(${inOutStringVar} ${result} PARENT_SCOPE)
 endfunction ()
+
+function (mini_pp_private_generate_int_tools inOutStringVar from to) # Check ${from} <= ${to} ? Check ${from} >= 0 ?
+    set(result ${${inOutStringVar}})
+
+    foreach (i RANGE ${from} ${to})
+        string(APPEND result "#define MINI_PP_PRIVATE_INT_TOOL_BASE_${i}_${i}\n")
+    endforeach ()
+
+    string(APPEND result "\n#define MINI_PP_PRIVATE_INT_TOOL_0(f,p)f(p,0,NAN,1)(f,p)\n")
+
+    if (${to} GREATER_EQUAL 1)
+        math(EXPR toMinusOne "${to} - 1")
+
+        if (${to} GREATER 1)
+            foreach (i RANGE 1 ${toMinusOne})
+                math(EXPR iMinusOne "${i} - 1")
+                math(EXPR iPlusOne "${i} + 1")
+                string(APPEND result "#define MINI_PP_PRIVATE_INT_TOOL_${i}(f,p)f(p,${i},${iMinusOne},${iPlusOne})(f,p)\n")
+            endforeach ()
+        endif ()
+
+        string(APPEND result "#define MINI_PP_PRIVATE_INT_TOOL_${to}(f,p)f(p,${to},${toMinusOne},NAN)(f,p)\n")
+    endif ()
+
+    set(${inOutStringVar} ${result} PARENT_SCOPE)
+endfunction()
