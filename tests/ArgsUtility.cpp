@@ -114,3 +114,11 @@ static_assert(MINI_PP_CAT(4, MINI_PP_IS_PAREN(PARENS_PROXY)) == 41, "MINI_PP_IS_
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_PAREN((a))) == 41, "MINI_PP_IS_PAREN is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_PAREN(ARGS_EMPTY)) == 40, "MINI_PP_IS_PAREN is broken");
 static_assert(MINI_PP_CAT(4, MINI_PP_IS_PAREN(ARGS_WITHOUT_COMMA_CALL())) == 40, "MINI_PP_IS_PAREN is broken");
+
+///////////////// MINI_PP_COMMA_IF_ARG /////////////////
+static_assert(MINI_PP_HAS_DIRECT_COMMA(MINI_PP_COMMA_IF_ARG()) == 0, "MINI_PP_COMMA_IF_ARG is broken");
+static_assert(MINI_PP_HAS_DIRECT_COMMA(MINI_PP_COMMA_IF_ARG(a)) == 1, "MINI_PP_COMMA_IF_ARG is broken");
+static_assert(MINI_PP_HAS_DIRECT_COMMA(MINI_PP_COMMA_IF_ARG(ARGS_EMPTY)) == 0, "MINI_PP_COMMA_IF_ARG is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_HAS_DIRECT_COMMA(MINI_PP_COMMA_IF_ARG())) == 40, "MINI_PP_COMMA_IF_ARG is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_HAS_DIRECT_COMMA(MINI_PP_COMMA_IF_ARG(a))) == 41, "MINI_PP_COMMA_IF_ARG is broken");
+static_assert(MINI_PP_CAT(4, MINI_PP_HAS_DIRECT_COMMA(MINI_PP_COMMA_IF_ARG(ARGS_EMPTY))) == 40, "MINI_PP_COMMA_IF_ARG is broken");

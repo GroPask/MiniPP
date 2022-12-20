@@ -15,6 +15,8 @@
 // Base
 ////////////////////////////////////////////////////////////
 
+#define MINI_PP_EMPTY()
+#define MINI_PP_COMMA() ,
 #define MINI_PP_PARENS ()
 
 #define MINI_PP_CAT(a, b) MINI_PP_PRIVATE_CAT_IMPL(a, b)
@@ -104,6 +106,8 @@
 #define MINI_PP_PRIVATE_IS_PAREN_IMPL_HAS_DIRECT_COMMA_0(...) MINI_PP_PRIVATE_IS_PAREN_IMPL_NO_COMMA(MINI_PP_HAS_DIRECT_COMMA(MINI_PP_PRIVATE_IS_PAREN_IMPL_CALL_CHECK __VA_ARGS__))
 #define MINI_PP_PRIVATE_IS_PAREN_IMPL_NO_COMMA(callCheckHasDirectComma) callCheckHasDirectComma
 #define MINI_PP_PRIVATE_IS_PAREN_IMPL_CALL_CHECK(...) dummyA, dummyB
+
+#define MINI_PP_COMMA_IF_ARG(...) MINI_PP_IF_ELSE(MINI_PP_IS_EMPTY(__VA_ARGS__), MINI_PP_EMPTY, MINI_PP_COMMA)()
 
 ////////////////////////////////////////////////////////////
 // Math
