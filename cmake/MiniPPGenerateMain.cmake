@@ -1,3 +1,4 @@
+include(${dpcmake_SOURCE_DIR}/dpCMake.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/MiniPPGenerator.cmake)
 
 file(READ ${miniPPMainGeneratorInOutFile} inOutFileContent)

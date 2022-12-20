@@ -89,7 +89,9 @@ function (mini_pp_private_generate_short_name outVar shortNameIndex)
     set_property(GLOBAL PROPERTY miniPPPrivateGeneratedShortNameCache ${shortNameCache})
 endfunction ()
 
-function (mini_pp_private_generate_basic_arg_tools inOutStringVar maxNbArgs) # Check ${maxNbArgs} >= 1 ?
+function (mini_pp_private_generate_basic_arg_tools inOutStringVar maxNbArgs)
+    dp_assert(${maxNbArgs} GREATER_EQUAL 1)
+
     set(result ${${inOutStringVar}})
 
     string(APPEND result "#define MINI_PP_MAX_NB_ARGS ${maxNbArgs}\n\n")
@@ -119,7 +121,10 @@ function (mini_pp_private_generate_basic_arg_tools inOutStringVar maxNbArgs) # C
     set(${inOutStringVar} ${result} PARENT_SCOPE)
 endfunction ()
 
-function (mini_pp_private_generate_for_each inOutStringVar from to) # Check ${from} <= ${to} ?  Check ${from} >= 0 ?
+function (mini_pp_private_generate_for_each inOutStringVar from to)
+    dp_assert(${from} GREATER_EQUAL 0)
+    dp_assert(${from} LESS_EQUAL ${to})
+
     set(result ${${inOutStringVar}})
 
     foreach (variationIndex RANGE ${from} ${to})
@@ -157,7 +162,10 @@ function (mini_pp_private_generate_for_each inOutStringVar from to) # Check ${fr
     set(${inOutStringVar} ${result} PARENT_SCOPE)
 endfunction ()
 
-function (mini_pp_private_generate_int_tools inOutStringVar from to) # Check ${from} <= ${to} ? Check ${from} >= 0 ?
+function (mini_pp_private_generate_int_tools inOutStringVar from to)
+    dp_assert(${from} GREATER_EQUAL 0)
+    dp_assert(${from} LESS_EQUAL ${to})
+
     set(result ${${inOutStringVar}})
 
     foreach (i RANGE ${from} ${to})

@@ -49,7 +49,10 @@ if (MINI_PP_INSTALL)
 endif ()
 
 if (MINI_PP_MAIN_GENERATOR)
+    dp_target_find_source(miniPPHppAbsolutePath ${PROJECT_NAME} "MiniPP.hpp")
+    dp_target_find_source(mainGeneratorScriptAbsolutePath ${PROJECT_NAME} "MiniPPGenerateMain.cmake")
+
     add_custom_target(${PROJECT_NAME}_MainGenerator
-        COMMAND ${CMAKE_COMMAND} -DminiPPMainGeneratorInOutFile=${CMAKE_CURRENT_LIST_DIR}/include/MiniPP/MiniPP.hpp -P ${CMAKE_CURRENT_LIST_DIR}/cmake/MiniPPGenerateMain.cmake
+        COMMAND ${CMAKE_COMMAND} -Ddpcmake_SOURCE_DIR=${dpcmake_SOURCE_DIR} -DminiPPMainGeneratorInOutFile=${miniPPHppAbsolutePath} -P ${mainGeneratorScriptAbsolutePath}
     )
 endif ()
