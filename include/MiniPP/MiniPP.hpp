@@ -109,6 +109,8 @@
 
 #define MINI_PP_COMMA_IF_ARG(...) MINI_PP_IF_ELSE(MINI_PP_IS_EMPTY(__VA_ARGS__), MINI_PP_EMPTY, MINI_PP_COMMA)()
 
+#define MINI_PP_CAT_IS_MORE_THAN_1_ARGS(prefix, ...) MINI_PP_CAT(prefix, MINI_PP_HAS_DIRECT_COMMA(__VA_ARGS__))
+
 ////////////////////////////////////////////////////////////
 // Math
 ////////////////////////////////////////////////////////////
@@ -141,12 +143,6 @@
 #define MINI_PP_IS_LESS_OR_EQUAL(a, b) MINI_PP_NOT(MINI_PP_IS_MORE(a, b))
 
 #define MINI_PP_IS_MORE_OR_EQUAL(a, b) MINI_PP_NOT(MINI_PP_IS_LESS(a, b))
-
-////////////////////////////////////////////////////////////
-// Cat Is More Than 1 Args
-////////////////////////////////////////////////////////////
-
-#define MINI_PP_CAT_IS_MORE_THAN_1_ARGS(prefix, ...) MINI_PP_CAT(prefix, MINI_PP_IS_LESS(1, MINI_PP_NB_ARGS(__VA_ARGS__)))
 
 ////////////////////////////////////////////////////////////
 // Tuple
