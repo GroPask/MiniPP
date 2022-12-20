@@ -7,7 +7,6 @@ target_sources(${PROJECT_NAME}_Tests PRIVATE
     Base.cpp
     Boolean.cpp
     CallWithArgs.cpp
-    CatIsMoreThan1Args.cpp
     ComputeSwitchWithOrWithoutVaArgs.cpp
     ForEach.cpp
     main.cpp
