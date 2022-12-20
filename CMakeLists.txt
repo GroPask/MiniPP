@@ -8,8 +8,8 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif ()
 
 option(MINI_PP_BUILD_TESTS "Build tests programs" ${MINI_PP_TOP_LEVEL_PROJECT})
-option(MINI_PP_MAIN_GENERATOR "Generate the main generator target" ${MINI_PP_TOP_LEVEL_PROJECT})
 option(MINI_PP_INSTALL "Generate the install target" ${MINI_PP_TOP_LEVEL_PROJECT})
+option(MINI_PP_MAIN_GENERATOR "Generate the main generator target" ${MINI_PP_TOP_LEVEL_PROJECT})
 
 include(FetchContent)
 FetchContent_Declare(dpCMake URL https://github.com/GroPask/dpCMake/archive/refs/heads/main.zip)
@@ -41,15 +41,15 @@ if (MINI_PP_BUILD_TESTS)
     add_subdirectory(tests)
 endif ()
 
-if (MINI_PP_MAIN_GENERATOR)
-    add_custom_target(${PROJECT_NAME}_MainGenerator
-        COMMAND ${CMAKE_COMMAND} -DminiPPMainGeneratorInOutFile=${CMAKE_CURRENT_LIST_DIR}/include/MiniPP/MiniPP.hpp -P ${CMAKE_CURRENT_LIST_DIR}/cmake/MiniPPGenerateMain.cmake
-    )
-endif ()
-
 if (MINI_PP_INSTALL)
     dp_target_generate_install(MiniPP
         CONFIG_IN cmake/MiniPPConfig.cmake.in
         INSTALL_INCLUDE_FOLDER
+    )
+endif ()
+
+if (MINI_PP_MAIN_GENERATOR)
+    add_custom_target(${PROJECT_NAME}_MainGenerator
+        COMMAND ${CMAKE_COMMAND} -DminiPPMainGeneratorInOutFile=${CMAKE_CURRENT_LIST_DIR}/include/MiniPP/MiniPP.hpp -P ${CMAKE_CURRENT_LIST_DIR}/cmake/MiniPPGenerateMain.cmake
     )
 endif ()
