@@ -83,9 +83,34 @@ static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, IDENT_WITH_PARAMS_FOR_
 
 static_assert(MINI_PP_WHILE(W_TEST_PRED, W_TEST_OP, W_TEST_END, (233, 0)) == 233, "");
 
+#define MINI_PP_HIDE_RECURSION
 
+#define PARENT8(...) (__VA_ARGS__)(__VA_ARGS__)(__VA_ARGS__)(__VA_ARGS__)(__VA_ARGS__)(__VA_ARGS__)(__VA_ARGS__)(__VA_ARGS__)
+#define PARENT64(...) PARENT8(__VA_ARGS__)PARENT8(__VA_ARGS__)PARENT8(__VA_ARGS__)PARENT8(__VA_ARGS__)PARENT8(__VA_ARGS__)PARENT8(__VA_ARGS__)PARENT8(__VA_ARGS__)PARENT8(__VA_ARGS__)
+#define PARENT512(...) PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)
+#define PARENT4096(...) PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)
 
+#define MINI_PP_LOOP(func, ...) MINI_PP_PRIVATE_LOOP_IMPL_MANAGE_END(MINI_PP_PRIVATE_L0 PARENT4096(func, __VA_ARGS__))
+#define MINI_PP_PRIVATE_LOOP_IMPL_MANAGE_END(...) MINI_PP_CAT(__VA_ARGS__, MINI_PP_PRIVATE_LE)
 
+#define MY_TEST_DO(a) + a
+#define MY_TEST(a) MINI_PP_LOOP(MY_TEST_DO, a)
+
+//MY_TEST PARENT512(MINI_PP_INC(a))
+static_assert(0 MY_TEST(1) == 4096, "");
+
+#define CLOSE )
+#define CLOSE_2 CLOSE CLOSE
+#define CLOSE_4 CLOSE_2 CLOSE_2
+
+#define A(f, a) B(f, f(a)
+#define B(f, a) C(f, f(a)
+#define C(f, a) D(f, f(a)
+#define D(f, a) E(f, f(a)
+#define E(f, a) a
+
+#define MY_FOO(f, a) A(f, a) ))))
+static_assert(MY_FOO(MINI_PP_INC, 0) == 4, "");
 
 
 #define W_TEST2_PRED(i, s) MINI_PP_NOT(MINI_PP_IS_EQUAL(238, i))

@@ -211,5 +211,23 @@ function (mini_pp_private_generate_while inOutStringVar from to)
         string(APPEND result "#define MINI_PP_PRIVATE_W${i}(p,o,e,s)MINI_PP_IF_ELSE(p(${i},s),MINI_PP_PRIVATE_W${iPlusOne},MINI_PP_PRIVATE_WE)(p,o,e,MINI_PP_IF(p(${i},s),o)(${i},s))\n")
     endforeach ()
 
+
+    string(APPEND result "\n\n\n")
+    foreach (i RANGE ${from} ${to})
+        math(EXPR iPlusOne "${i} + 1")   
+        string(APPEND result "#define MINI_PP_PRIVATE_L${i}(func, ...)func(__VA_ARGS__) MINI_PP_PRIVATE_L${iPlusOne}\n")
+    endforeach ()
+
+    string(APPEND result "\n")
+    foreach (i RANGE ${from} ${to})
+        string(APPEND result "#define MINI_PP_PRIVATE_L${i}MINI_PP_PRIVATE_LE\n")
+    endforeach ()
+
+    string(APPEND result "\n\n\n")
+    foreach (i RANGE ${from} ${to})
+        math(EXPR iPlusOne "${i} + 1")   
+        string(APPEND result "#define MINI_PP_PRIVATE_LOOP_WITH_COND${i}(func, ...)func(__VA_ARGS__) MINI_PP_PRIVATE_LOOP_WITH_COND${iPlusOne}\n")
+    endforeach ()
+
     set(${inOutStringVar} ${result} PARENT_SCOPE)
 endfunction ()
