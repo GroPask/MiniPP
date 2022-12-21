@@ -168,6 +168,8 @@ function (mini_pp_private_generate_int_tools inOutStringVar from to)
 
     set(result ${${inOutStringVar}})
 
+     string(APPEND result "#define MINI_PP_MAX_INT ${to}\n\n")
+
     foreach (i RANGE ${from} ${to})
         string(APPEND result "#define MINI_PP_PRIVATE_INT_TOOL_BASE_${i}_${i}\n")
     endforeach ()
@@ -190,3 +192,24 @@ function (mini_pp_private_generate_int_tools inOutStringVar from to)
 
     set(${inOutStringVar} ${result} PARENT_SCOPE)
 endfunction()
+
+function (mini_pp_private_generate_while inOutStringVar from to)
+    dp_assert(${from} GREATER_EQUAL 0)
+    dp_assert(${from} LESS_EQUAL ${to})
+
+    set(result ${${inOutStringVar}})
+
+    #string(APPEND result "#define MINI_PP_PRIVATE_WE(p,o,e,s)e s\n")
+    #foreach (i RANGE ${from} ${to})
+    #    math(EXPR iPlusOne "${i} + 1")   
+    #    string(APPEND result "#define MINI_PP_PRIVATE_W${i}(p,o,e,s)MINI_PP_IF_ELSE(p(s),MINI_PP_PRIVATE_W${iPlusOne},MINI_PP_PRIVATE_WE)(p,o,e,MINI_PP_IF(p(s),o)(s))\n")
+    #endforeach ()
+
+    string(APPEND result "#define MINI_PP_PRIVATE_WE(p,o,e,s)e s\n")
+    foreach (i RANGE ${from} ${to})
+        math(EXPR iPlusOne "${i} + 1")   
+        string(APPEND result "#define MINI_PP_PRIVATE_W${i}(p,o,e,s)MINI_PP_IF_ELSE(p(${i},s),MINI_PP_PRIVATE_W${iPlusOne},MINI_PP_PRIVATE_WE)(p,o,e,MINI_PP_IF(p(${i},s),o)(${i},s))\n")
+    endforeach ()
+
+    set(${inOutStringVar} ${result} PARENT_SCOPE)
+endfunction ()

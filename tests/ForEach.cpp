@@ -74,3 +74,35 @@ static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH_WITH_
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, MINI_PP_FOR_EACH_WITH_PARAMS(IDENT_WITH_WITH_PARAMS, Bar, 2, 3, 4))), "4Bar 2 Bar 3 Bar 4"), "MINI_PP_FOR_EACH is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, IDENT_WITH_PARAMS_FOR_EACH(Bar, 2))), "4Bar 2"), "MINI_PP_FOR_EACH is broken");
 static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_CAT(4, IDENT_WITH_PARAMS_FOR_EACH(Bar, 2, 3, 4))), "4Bar 2 Bar 3 Bar 4"), "MINI_PP_FOR_EACH is broken");
+
+#define MINI_PP_WHILE(predicate, operation, endOperation, state) MINI_PP_PRIVATE_W0(predicate, operation, endOperation, state)
+
+#define W_TEST_PRED(i, s) MINI_PP_NOT(MINI_PP_IS_EQUAL(0, MINI_PP_TUPLE_GET_ELEM_0(s)))
+#define W_TEST_OP(i, s) (MINI_PP_DEC(MINI_PP_TUPLE_GET_ELEM_0(s)), MINI_PP_INC(MINI_PP_TUPLE_GET_ELEM_1(s)))
+#define W_TEST_END(i, s) MINI_PP_TUPLE_GET_ELEM_1(s)
+
+static_assert(MINI_PP_WHILE(W_TEST_PRED, W_TEST_OP, W_TEST_END, (233, 0)) == 233, "");
+
+
+
+
+
+
+#define W_TEST2_PRED(i, s) MINI_PP_NOT(MINI_PP_IS_EQUAL(238, i))
+#define W_TEST2_OP(i, s)
+#define W_TEST2_END(i, s) i
+
+static_assert(MINI_PP_WHILE(W_TEST2_PRED, W_TEST2_OP, W_TEST2_END, dummy) == 238, "");
+
+static_assert(MINI_PP_IS_LESS(0, 240) == 1, "");
+
+
+
+#define MINI_PP_SEQ_GENERATE(min, max) MINI_PP_ASSERT(MINI_PP_IS_LESS_OR_EQUAL(min, max))MINI_PP_PRIVATE_SG0(min, max)(MINI_PP_INC(min), max)
+
+#define MINI_PP_PRIVATE_SGE(a,b)
+#define MINI_PP_PRIVATE_SG0(a,b)(a)MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(a,b),MINI_PP_PRIVATE_SGE,MINI_PP_PRIVATE_SG1)
+
+
+
+//#define MINI_PP_PRIVATE_W0(p,o,e,s)MINI_PP_IF_ELSE(p(s),MINI_PP_PRIVATE_W1,MINI_PP_PRIVATE_WE)(p,o,e,MINI_PP_IF(p(s),o)(s))
