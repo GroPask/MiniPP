@@ -99,9 +99,19 @@ static_assert(MINI_PP_WHILE(W_TEST_PRED, W_TEST_OP, W_TEST_END, (233, 0)) == 233
 //MY_TEST PARENT512(MINI_PP_INC(a))
 static_assert(0 MY_TEST(1) == 4096, "");
 
-#define CLOSE )
-#define CLOSE_2 CLOSE CLOSE
-#define CLOSE_4 CLOSE_2 CLOSE_2
+#define CLOSE() )
+#define CLOSE_2() CLOSE()CLOSE()
+#define CLOSE_4() CLOSE_2()CLOSE_2()
+#define CLOSE_8() CLOSE_4()CLOSE_4()
+#define CLOSE_16() CLOSE_8()CLOSE_8()
+#define CLOSE_32() CLOSE_16()CLOSE_16()
+#define CLOSE_64() CLOSE_32()CLOSE_32()
+#define CLOSE_128() CLOSE_64()CLOSE_64()
+#define CLOSE_256() CLOSE_128()CLOSE_128()
+#define CLOSE_512() CLOSE_256()CLOSE_256()
+#define CLOSE_1024() CLOSE_512()CLOSE_512()
+#define CLOSE_2048() CLOSE_1024()CLOSE_1024()
+#define CLOSE_4096() CLOSE_2048()CLOSE_2048()
 
 #define A(f, a) B(f, f(a)
 #define B(f, a) C(f, f(a)
@@ -112,6 +122,14 @@ static_assert(0 MY_TEST(1) == 4096, "");
 #define MY_FOO(f, a) A(f, a) ))))
 static_assert(MY_FOO(MINI_PP_INC, 0) == 4, "");
 
+static_assert(MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(0, 3), 42, 24) == 24, "");
+static_assert(MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(3, 3), 42, 24) == 42, "");
+
+#define MINI_PP_SEQ_GEN(min, max, params) MINI_PP_PRIVATE_SEQ_GEN_IMPL(MINI_PP_CAT(MINI_PP_PRIVATE_SG, min), MINI_PP_CAT(MINI_PP_PARENT, max), max, params)
+#define MINI_PP_PRIVATE_SEQ_GEN_IMPL(startFunc, parentFunc, max, params) MINI_PP_PRIVATE_SEQ_GEN_IMPL_END(startFunc parentFunc(max, params)MINI_PP_PARENT1(max, params))
+#define MINI_PP_PRIVATE_SEQ_GEN_IMPL_END(...) MINI_PP_CAT(__VA_ARGS__, FINISH)
+
+MINI_PP_SEQ_GEN(1019, 1024, dummy)
 
 #define W_TEST2_PRED(i, s) MINI_PP_NOT(MINI_PP_IS_EQUAL(238, i))
 #define W_TEST2_OP(i, s)
@@ -125,8 +143,8 @@ static_assert(MINI_PP_IS_LESS(0, 240) == 1, "");
 
 #define MINI_PP_SEQ_GENERATE(min, max) MINI_PP_ASSERT(MINI_PP_IS_LESS_OR_EQUAL(min, max))MINI_PP_PRIVATE_SG0(min, max)(MINI_PP_INC(min), max)
 
-#define MINI_PP_PRIVATE_SGE(a,b)
-#define MINI_PP_PRIVATE_SG0(a,b)(a)MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(a,b),MINI_PP_PRIVATE_SGE,MINI_PP_PRIVATE_SG1)
+//#define MINI_PP_PRIVATE_SGE(a,b)
+//#define MINI_PP_PRIVATE_SG0(a,b)(a)MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(a,b),MINI_PP_PRIVATE_SGE,MINI_PP_PRIVATE_SG1)
 
 
 

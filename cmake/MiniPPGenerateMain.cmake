@@ -15,7 +15,7 @@ mini_pp_private_generate_for_each(inOutFileContent 0 125)
 string(APPEND inOutFileContent "\n")
 mini_pp_private_generate_int_tools(inOutFileContent 0 1024)
 string(APPEND inOutFileContent "\n")
-mini_pp_private_generate_while(inOutFileContent 0 4096)
+mini_pp_private_generate_while(inOutFileContent 0 1024)
 string(APPEND inOutFileContent "\n#endif\n")
 
 file(WRITE ${miniPPMainGeneratorInOutFile} ${inOutFileContent})
