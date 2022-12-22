@@ -264,7 +264,10 @@ function (mini_pp_private_generate_while inOutStringVar from to)
     foreach (i RANGE ${from} ${to})
         math(EXPR iPlusOne "${i} + 1")
         #string(APPEND result "#define MINI_PP_PRIVATE_SG${i}(m)(${i})MINI_PP_PRIVATE_SG${iPlusOne}(m\n")
-        string(APPEND result "#define MINI_PP_PRIVATE_SG${i}(m,d)(${i},d)MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(${i},m),MINI_PP_PRIVATE_SEQ_CONSUME0,MINI_PP_PRIVATE_SG${iPlusOne})\n")
+        #string(APPEND result "#define MINI_PP_PRIVATE_SG${i}(m,d)(${i},d)MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(${i},m),MINI_PP_PRIVATE_SEQ_CONSUME0,MINI_PP_PRIVATE_SG${iPlusOne})\n")
+        #string(APPEND result "#define MINI_PP_PRIVATE_LOOP${i}(p,f,...)f(${i},__VA_ARGS__)MINI_PP_IF_ELSE(p(${iPlusOne},__VA_ARGS__),MINI_PP_PRIVATE_LOOP${iPlusOne},MINI_PP_PRIVATE_SEQ_CONSUME0)\n")
+
+        string(APPEND result "#define MINI_PP_PRIVATE_LOOP${i}(p,o,...)MINI_PP_IF(p(${i},__VA_ARGS__),o(${i},__VA_ARGS__))MINI_PP_IF_ELSE(p(${i},__VA_ARGS__),MINI_PP_PRIVATE_LOOP${iPlusOne},MINI_PP_PRIVATE_SEQ_CONSUME0)\n")
     endforeach ()
 
     set(${inOutStringVar} ${result} PARENT_SCOPE)

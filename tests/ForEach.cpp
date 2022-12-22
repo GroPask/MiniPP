@@ -90,14 +90,14 @@ static_assert(MINI_PP_WHILE(W_TEST_PRED, W_TEST_OP, W_TEST_END, (233, 0)) == 233
 #define PARENT512(...) PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)PARENT64(__VA_ARGS__)
 #define PARENT4096(...) PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)PARENT512(__VA_ARGS__)
 
-#define MINI_PP_LOOP(func, ...) MINI_PP_PRIVATE_LOOP_IMPL_MANAGE_END(MINI_PP_PRIVATE_L0 PARENT4096(func, __VA_ARGS__))
-#define MINI_PP_PRIVATE_LOOP_IMPL_MANAGE_END(...) MINI_PP_CAT(__VA_ARGS__, MINI_PP_PRIVATE_LE)
+//#define MINI_PP_LOOP(func, ...) MINI_PP_PRIVATE_LOOP_IMPL_MANAGE_END(MINI_PP_PRIVATE_L0 PARENT4096(func, __VA_ARGS__))
+//#define MINI_PP_PRIVATE_LOOP_IMPL_MANAGE_END(...) MINI_PP_CAT(__VA_ARGS__, MINI_PP_PRIVATE_LE)
 
-#define MY_TEST_DO(a) + a
-#define MY_TEST(a) MINI_PP_LOOP(MY_TEST_DO, a)
+//#define MY_TEST_DO(a) + a
+//#define MY_TEST(a) MINI_PP_LOOP(MY_TEST_DO, a)
 
 //MY_TEST PARENT512(MINI_PP_INC(a))
-static_assert(0 MY_TEST(1) == 4096, "");
+//static_assert(0 MY_TEST(1) == 4096, "");
 
 #define CLOSE() )
 #define CLOSE_2() CLOSE()CLOSE()
@@ -125,11 +125,61 @@ static_assert(MY_FOO(MINI_PP_INC, 0) == 4, "");
 static_assert(MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(0, 3), 42, 24) == 24, "");
 static_assert(MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(3, 3), 42, 24) == 42, "");
 
-#define MINI_PP_SEQ_GEN(min, max, params) MINI_PP_PRIVATE_SEQ_GEN_IMPL(MINI_PP_CAT(MINI_PP_PRIVATE_SG, min), MINI_PP_CAT(MINI_PP_PARENT, max), max, params)
-#define MINI_PP_PRIVATE_SEQ_GEN_IMPL(startFunc, parentFunc, max, params) MINI_PP_PRIVATE_SEQ_GEN_IMPL_END(startFunc parentFunc(max, params)MINI_PP_PARENT1(max, params))
-#define MINI_PP_PRIVATE_SEQ_GEN_IMPL_END(...) MINI_PP_CAT(__VA_ARGS__, FINISH)
+//#define MINI_PP_SEQ_GEN(min, max, params) MINI_PP_PRIVATE_SEQ_GEN_IMPL(MINI_PP_CAT(MINI_PP_PRIVATE_SG, min), MINI_PP_CAT(MINI_PP_PARENT, max), max, params)
+//#define MINI_PP_PRIVATE_SEQ_GEN_IMPL(startFunc, parentFunc, max, params) MINI_PP_PRIVATE_SEQ_GEN_IMPL_END(startFunc parentFunc(max, params)MINI_PP_PARENT1(max, params))
+//#define MINI_PP_PRIVATE_SEQ_GEN_IMPL_END(...) MINI_PP_CAT(__VA_ARGS__, FINISH)
+//MINI_PP_SEQ_GEN(1019, 1024, dummy)
 
-MINI_PP_SEQ_GEN(1019, 1024, dummy)
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define MINI_PP_PRIVATE_LOOP_WRAPPER(minLoopIndex, maxLoopIndex, predicate, /*operation,*/ ...) MINI_PP_PRIVATE_LOOP_WRAPPER_EXPAND(MINI_PP_PRIVATE_LOOP_WRAPPER_LOOP(MINI_PP_CAT(MINI_PP_PRIVATE_LOOP, minLoopIndex), MINI_PP_CAT(MINI_PP_PARENT, maxLoopIndex), predicate, __VA_ARGS__))
+#define MINI_PP_PRIVATE_LOOP_WRAPPER_LOOP(baseLoopFunc, parentFunc, predicate, /*operation,*/ ...) MINI_PP_PRIVATE_LOOP_WRAPPER_EXPAND(baseLoopFunc parentFunc(predicate, __VA_ARGS__)MINI_PP_PARENT1(predicate, __VA_ARGS__)) ## FINISH
+#define MINI_PP_PRIVATE_LOOP_WRAPPER_EXPAND(...) MINI_PP_PRIVATE_LOOP_WRAPPER_EXPAND2(__VA_ARGS__)
+#define MINI_PP_PRIVATE_LOOP_WRAPPER_EXPAND2(...) __VA_ARGS__
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define MINI_PP_FOR_RANGE(min, max, /*operation,*/ ...) MINI_PP_PRIVATE_FOR_RANGE_IMPL_EXPAND(MINI_PP_CAT_IS_MORE_THAN_1_ARGS(MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_, __VA_ARGS__)(min, max, __VA_ARGS__))
+#define MINI_PP_PRIVATE_FOR_RANGE_IMPL_EXPAND(...) __VA_ARGS__
+#define MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_0(min, max, operation) MINI_PP_PRIVATE_LOOP_WRAPPER(min, max, MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_0_PRED, MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_0_OP, max, operation)operation(max)
+#define MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_0_PRED(loopIndex, max, operation) MINI_PP_NOT(MINI_PP_IS_EQUAL(loopIndex, max))
+#define MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_0_OP(loopIndex, max, operation) operation(loopIndex)
+#define MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_1(min, max, operation, ...) MINI_PP_PRIVATE_LOOP_WRAPPER(min, max, MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_1_PRED, MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_1_OP, max, operation, __VA_ARGS__)operation(max, __VA_ARGS__)
+#define MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_1_PRED(loopIndex, max, operation, ...) MINI_PP_NOT(MINI_PP_IS_EQUAL(loopIndex, max))
+#define MINI_PP_PRIVATE_FOR_RANGE_IMPL_WITH_VA_1_OP(loopIndex, max, operation, ...) operation(loopIndex, __VA_ARGS__)
+
+#define MY_TEST_RANGE(loopIndex) (loopIndex)
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_FOR_RANGE(0, 5, MY_TEST_RANGE)), "(0)(1)(2)(3)(4)(5)"), "");
+
+#define MY_TEST_RANGE_PARAM(loopIndex, param) (loopIndex, param)
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_FOR_RANGE(0, 5, MY_TEST_RANGE_PARAM, dummy)), "(0, dummy)(1, dummy)(2, dummy)(3, dummy)(4, dummy)(5, dummy)"), "");
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#define MINI_PP_SEQ_GEN(min, /*max,*/ ...) MINI_PP_PRIVATE_SEQ_GEN_IMPL_EXPAND(MINI_PP_CAT_IS_MORE_THAN_1_ARGS(MINI_PP_PRIVATE_SEQ_GEN_IMPL_WITH_VA_, __VA_ARGS__)(min, __VA_ARGS__))
+#define MINI_PP_PRIVATE_SEQ_GEN_IMPL_EXPAND(...) __VA_ARGS__
+#define MINI_PP_PRIVATE_SEQ_GEN_IMPL_WITH_VA_0(min, max) MINI_PP_FOR_RANGE(min, max, MINI_PP_PRIVATE_SEQ_GEN_IMPL_OP)
+#define MINI_PP_PRIVATE_SEQ_GEN_IMPL_WITH_VA_1(min, max, ...) MINI_PP_FOR_RANGE(min, max, MINI_PP_PRIVATE_SEQ_GEN_IMPL_OP, __VA_ARGS__)
+#define MINI_PP_PRIVATE_SEQ_GEN_IMPL_OP(...) (__VA_ARGS__)
+
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_SEQ_GEN(1022, 1024)), "(1022)(1023)(1024)"), "");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_SEQ_GEN(0, 5)), "(0)(1)(2)(3)(4)(5)"), "");
+
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_SEQ_GEN(1022, 1024, dummy)), "(1022, dummy)(1023, dummy)(1024, dummy)"), "");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_SEQ_GEN(0, 5, dummy)), "(0, dummy)(1, dummy)(2, dummy)(3, dummy)(4, dummy)(5, dummy)"), "");
+
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_SEQ_GEN(1022, 1024, foo, bar)), "(1022, foo, bar)(1023, foo, bar)(1024, foo, bar)"), "");
+static_assert(stringsEqual(MINI_PP_TO_TEXT(MINI_PP_SEQ_GEN(0, 5, foo, bar)), "(0, foo, bar)(1, foo, bar)(2, foo, bar)(3, foo, bar)(4, foo, bar)(5, foo, bar)"), "");
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #define W_TEST2_PRED(i, s) MINI_PP_NOT(MINI_PP_IS_EQUAL(238, i))
 #define W_TEST2_OP(i, s)
@@ -141,7 +191,7 @@ static_assert(MINI_PP_IS_LESS(0, 240) == 1, "");
 
 
 
-#define MINI_PP_SEQ_GENERATE(min, max) MINI_PP_ASSERT(MINI_PP_IS_LESS_OR_EQUAL(min, max))MINI_PP_PRIVATE_SG0(min, max)(MINI_PP_INC(min), max)
+//#define MINI_PP_SEQ_GENERATE(min, max) MINI_PP_ASSERT(MINI_PP_IS_LESS_OR_EQUAL(min, max))MINI_PP_PRIVATE_SG0(min, max)(MINI_PP_INC(min), max)
 
 //#define MINI_PP_PRIVATE_SGE(a,b)
 //#define MINI_PP_PRIVATE_SG0(a,b)(a)MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(a,b),MINI_PP_PRIVATE_SGE,MINI_PP_PRIVATE_SG1)
