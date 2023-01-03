@@ -199,41 +199,26 @@ function (mini_pp_private_generate_while inOutStringVar from to)
 
     set(result ${${inOutStringVar}})
 
-    #string(APPEND result "#define MINI_PP_PRIVATE_WE(p,o,e,s)e s\n")
-    #foreach (i RANGE ${from} ${to})
-    #    math(EXPR iPlusOne "${i} + 1")   
-    #    string(APPEND result "#define MINI_PP_PRIVATE_W${i}(p,o,e,s)MINI_PP_IF_ELSE(p(s),MINI_PP_PRIVATE_W${iPlusOne},MINI_PP_PRIVATE_WE)(p,o,e,MINI_PP_IF(p(s),o)(s))\n")
-    #endforeach ()
-
+    # While
     string(APPEND result "#define MINI_PP_PRIVATE_WE(p,o,e,s)e s\n")
     foreach (i RANGE ${from} ${to})
         math(EXPR iPlusOne "${i} + 1")   
         string(APPEND result "#define MINI_PP_PRIVATE_W${i}(p,o,e,s)MINI_PP_IF_ELSE(p(${i},s),MINI_PP_PRIVATE_W${iPlusOne},MINI_PP_PRIVATE_WE)(p,o,e,MINI_PP_IF(p(${i},s),o)(${i},s))\n")
     endforeach ()
 
-
-    string(APPEND result "\n\n\n")
-    foreach (i RANGE ${from} ${to})
-        math(EXPR iPlusOne "${i} + 1")   
-        string(APPEND result "#define MINI_PP_PRIVATE_L${i}(func, ...)func(__VA_ARGS__) MINI_PP_PRIVATE_L${iPlusOne}\n")
-    endforeach ()
-
-    string(APPEND result "\n")
-    foreach (i RANGE ${from} ${to})
-        string(APPEND result "#define MINI_PP_PRIVATE_L${i}MINI_PP_PRIVATE_LE\n")
-    endforeach ()
-
+    # Comsume (for Loop)
     string(APPEND result "\n")
     foreach (i RANGE ${from} ${to})
         math(EXPR iPlusOne "${i} + 1")
         string(APPEND result "#define MINI_PP_PRIVATE_SEQ_CONSUME${i}(...) MINI_PP_PRIVATE_SEQ_CONSUME${iPlusOne}\n")
     endforeach ()
-
+    
     string(APPEND result "\n")
     foreach (i RANGE ${from} ${to})
        string(APPEND result "#define MINI_PP_PRIVATE_SEQ_CONSUME${i}FINISH\n")
     endforeach ()
 
+    # Parent
     set(base 8)
     string(APPEND result "\n")
     foreach (i RANGE ${from} ${to})
@@ -260,14 +245,92 @@ function (mini_pp_private_generate_while inOutStringVar from to)
         string(APPEND result "\n")
     endforeach ()
 
+    # Seq Gen From Other
+    set(seqGenFromOtherBase 2)
+    string(APPEND result "\n")
+    foreach (i RANGE ${from} ${to})
+        string(APPEND result "#define MINI_PP_PRIVATE_SGFO${i}(s,...)")
+
+        math(EXPR baseFactor "${i} / ${seqGenFromOtherBase}")
+        math(EXPR baseRemainder "${i} % ${seqGenFromOtherBase}")
+
+        if (${baseFactor} EQUAL 0)
+            if (i GREATER 0)
+                foreach (j RANGE 1 ${baseRemainder})
+                    math(EXPR toConsume "${j} - 1")
+                    if (${toConsume} EQUAL 0)
+                        string(APPEND result "(__VA_ARGS__, MINI_PP_SEQ_GET_HEAD_TUPLE(s))")
+                    else ()
+                        string(APPEND result "(__VA_ARGS__, MINI_PP_SEQ_GET_HEAD_TUPLE(MINI_PP_PRIVATE_SC${toConsume} s))")
+                    endif ()
+                endforeach ()
+            endif ()
+        else ()
+            foreach (j RANGE 1 ${seqGenFromOtherBase})
+                math(EXPR toConsume "(${j} - 1) * ${baseFactor}")
+
+                set(recCallIndex ${baseFactor})
+                if (j EQUAL ${seqGenFromOtherBase})
+                    math(EXPR recCallIndex "${recCallIndex} + ${baseRemainder}")
+                endif ()
+
+                if (${toConsume} EQUAL 0)
+                    string(APPEND result "MINI_PP_PRIVATE_SGFO${recCallIndex}(s,__VA_ARGS__)")
+                else ()
+                    string(APPEND result "MINI_PP_PRIVATE_SGFO${recCallIndex}(MINI_PP_PRIVATE_SC${toConsume} s,__VA_ARGS__)")
+                endif ()
+            endforeach ()
+        endif ()
+          
+        string(APPEND result "\n")
+    endforeach ()
+
+    # Loop (need Seq Consume Old)
     string(APPEND result "\n")
     foreach (i RANGE ${from} ${to})
         math(EXPR iPlusOne "${i} + 1")
-        #string(APPEND result "#define MINI_PP_PRIVATE_SG${i}(m)(${i})MINI_PP_PRIVATE_SG${iPlusOne}(m\n")
-        #string(APPEND result "#define MINI_PP_PRIVATE_SG${i}(m,d)(${i},d)MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(${i},m),MINI_PP_PRIVATE_SEQ_CONSUME0,MINI_PP_PRIVATE_SG${iPlusOne})\n")
-        #string(APPEND result "#define MINI_PP_PRIVATE_LOOP${i}(p,f,...)f(${i},__VA_ARGS__)MINI_PP_IF_ELSE(p(${iPlusOne},__VA_ARGS__),MINI_PP_PRIVATE_LOOP${iPlusOne},MINI_PP_PRIVATE_SEQ_CONSUME0)\n")
-
         string(APPEND result "#define MINI_PP_PRIVATE_LOOP${i}(p,o,...)MINI_PP_IF(p(${i},__VA_ARGS__),o(${i},__VA_ARGS__))MINI_PP_IF_ELSE(p(${i},__VA_ARGS__),MINI_PP_PRIVATE_LOOP${iPlusOne},MINI_PP_PRIVATE_SEQ_CONSUME0)\n")
+    endforeach ()
+
+    # Loop Fixed (need Seq Consume New)
+    string(APPEND result "\n")
+    foreach (i RANGE ${from} ${to})
+        math(EXPR iPlusOne "${i} + 1")
+        string(APPEND result "#define MINI_PP_PRIVATE_LF${i}(b,e,o,...)MINI_PP_IF(MINI_PP_NOT(MINI_PP_IS_EQUAL(${i},e)),o(${i},__VA_ARGS__))MINI_PP_IF_ELSE(MINI_PP_IS_EQUAL(${i},e),MINI_PP_CAT(MINI_PP_PRIVATE_SC,b),MINI_PP_PRIVATE_LF${iPlusOne})\n")
+    endforeach ()
+
+    # Seg Get Elem
+    string(APPEND result "\n")
+    foreach (i RANGE ${from} ${to})
+        if (${i} EQUAL 0)
+            string(APPEND result "#define MINI_PP_PRIVATE_SGE${i}(...)(__VA_ARGS__),MINI_PP_NIL\n")
+        else ()
+            math(EXPR iMinusOne "${i} - 1")
+            string(APPEND result "#define MINI_PP_PRIVATE_SGE${i}(...)MINI_PP_PRIVATE_SGE${iMinusOne}\n")
+        endif ()
+    endforeach ()
+
+    # Seq Consume
+    string(APPEND result "\n")
+    foreach (i RANGE ${from} ${to})
+        if (${i} EQUAL 0)
+            string(APPEND result "#define MINI_PP_PRIVATE_SC${i}\n")
+        else ()
+            math(EXPR iMinusOne "${i} - 1")
+            string(APPEND result "#define MINI_PP_PRIVATE_SC${i}(...)MINI_PP_PRIVATE_SC${iMinusOne}\n")
+        endif ()
+    endforeach ()
+
+    # Seq Size
+    string(APPEND result "\n")
+    foreach (i RANGE ${from} ${to})
+        math(EXPR iPlusOne "${i} + 1")
+        string(APPEND result "#define MINI_PP_PRIVATE_SS${i}(...) MINI_PP_PRIVATE_SS${iPlusOne}\n")
+    endforeach ()
+
+    string(APPEND result "\n")
+    foreach (i RANGE ${from} ${to})
+        string(APPEND result "#define MINI_PP_PRIVATE_MINI_PP_PRIVATE_SS${i} ${i}\n")
     endforeach ()
 
     set(${inOutStringVar} ${result} PARENT_SCOPE)
